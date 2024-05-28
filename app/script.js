@@ -27,7 +27,7 @@ function signup() {
                 document.getElementById("msg").className = "alert alert-success";
                 document.getElementById("msgdiv").className = "d-block";
 
-                window.location = "./components/login.php";
+                window.location = "login.php";
 
             } else {
                 document.getElementById("msg").innerHTML = t;

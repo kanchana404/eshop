@@ -15,7 +15,9 @@
 </head>
 
 <body>
+   
     <?php include './components/Navbar.php'; ?>
+    <?php include './components/Banner.php'; ?>
     <?php include './components/Hero.php'; ?>
 
 </body>
