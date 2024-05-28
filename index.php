@@ -19,5 +19,5 @@
     <?php include './components/Hero.php'; ?>
 
 </body>
-
+<script src="./app/script.js"></script>
 </html>

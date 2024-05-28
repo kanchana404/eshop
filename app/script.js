@@ -27,7 +27,7 @@ function signup() {
                 document.getElementById("msg").className = "alert alert-success";
                 document.getElementById("msgdiv").className = "d-block";
 
-                window.location = "login.php";
+                window.location = "./components/login.php";
 
             } else {
                 document.getElementById("msg").innerHTML = t;
@@ -37,7 +37,7 @@ function signup() {
         }
     }
 
-    r.open("POST", "signupprocess.php", true);
+    r.open("POST", "../app/signupprocess.php", true);
     r.send(f);
 }
 
@@ -60,7 +60,7 @@ function signin() {
         if (r.readyState == 4 && r.status == 200) {
             var t = r.responseText;
             if (t == "success") {
-                window.location = "index.php";
+                window.location = "../index.php";
 
             } else {
                 alert(t);
@@ -69,7 +69,7 @@ function signin() {
         }
     }
 
-    r.open("POST", " signinprocess.php", true);
+    r.open("POST", " ../app/signinprocess.php", true);
     r.send(f);
 
 }
@@ -85,7 +85,7 @@ function signout() {
             if (t == "success") {
 
                 // window.location.reload();
-                window.location = "login.php";
+                window.location = "./components/login.php";
 
             } else {
                 alert(t);
@@ -93,7 +93,7 @@ function signout() {
         }
     }
 
-    r.open("GET", "signoutProcess.php", true);
+    r.open("GET", "app/signoutProcess.php", true);
     r.send();
 
 }

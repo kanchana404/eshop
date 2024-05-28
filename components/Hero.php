@@ -15,8 +15,8 @@
 
     <div class="col" >
         <div class="row text-center" style="margin-top:50px;">
-            <div class="col-lg-3 col-md-6 col-sm-12 text-center">
-                <div class="container" id="box">
+            <div class="col-lg-3 col-md-6 col-sm-12 text-center" style=" margin: bottom 50px;">
+                <div class="container" id="box" >
                     <img src="./components/cloth_img/file.jpg" alt="" style=" clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);">
                     <div class="row text-center" style="margin-top:-80px;">
                         <h5>Girl's Hoodie</h5>

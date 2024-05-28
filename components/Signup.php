@@ -18,7 +18,7 @@ if (isset($_COOKIE["password"])) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -126,7 +126,7 @@ if (isset($_COOKIE["password"])) {
   <div class="col-12 text-center">
     © 2023 AMELIYA || All Rights Reserved
   </div>
-  <script src="script.js"></script>
+  <script src="../app/script.js"></script>
 </body>
 
 </html>

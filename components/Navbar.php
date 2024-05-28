@@ -100,7 +100,7 @@ if (isset($_COOKIE["password"])) {
   <hr>
 
 
-  <script src="script.js"></script>
+  <script src="../app/sc"></script>
 </body>
 
 </html>
