@@ -21,6 +21,8 @@
 
     ?>
 
+<br>
+<br>
     <?php
     if (isset($_SESSION["u"])) {
     ?>

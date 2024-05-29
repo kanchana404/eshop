@@ -1,37 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Hero</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">    <link rel="stylesheet" href="../style.css">
+    <title>Document</title>
 </head>
+<body>
+<?php
+    require "Navbar.php";
+    require "connection.php";
+    require "Header.php";
+    ?>
 
-<body class="p-3 m-0 border-0 bd-example m-0 border-0 bd-example-row bd-example-row-flex-cols">
-
-
-   
-    <div class="col">
-    <div class="col">
-        <h1>For you..</h1>
-    </div>
+    <h1>Men's Products</h1>
     <div class="row text-center" style="margin-top:50px;">
    
         <?php
         $imgPaths = [];
-        $wpdall = Database::search("SELECT * FROM product INNER JOIN product_img ON product_img.product_id = product.id INNER JOIN category ON product.category_c_id = category.c_id ORDER BY RAND() LIMIT 8 ;
+        $wpdall = Database::search("SELECT * FROM men INNER JOIN product ON product_id = product.id INNER JOIN product_img ON product.id = product_img.product_id INNER JOIN category ON product.category_c_id = category.c_id ;
         ");
         $wpdall_num = $wpdall->num_rows;
-        for ($x = 0; $x < 8; $x++) {
+        for ($x = 0; $x < $wpdall_num; $x++) {
             $wpdall_data = $wpdall->fetch_assoc();
             $imgSrc = $wpdall_data["path"]; // Fetching the image path from the database
             $imgPaths[] = $imgSrc;
         ?>
             <div class="col-lg-3 col-md-6 col-sm-12 text-center mb-4"> <!-- Added Bootstrap margin-bottom class -->
                 <div class="container" id="box">
-                    <img src="<?php echo $imgSrc; ?>" alt="" style="clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);">
+                    <img src="../<?php echo $imgSrc; ?>" alt="" style="clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);">
                     <div class="row text-center" style="margin-top:-80px;">
                         <h5><?php echo $wpdall_data["title"] ?></h5>
                     </div>
@@ -62,24 +63,5 @@
         }
         ?>
     </div>
-
- <div class="col">
-    <div class="row text-center">
-        <div class="col"></div>
-        <div class="col-4">
-        <button type="button" class="btn btn-info" style="width:100%; color:white;">Load More</button>
-        </div>
-        <div class="col"></div>
-    
-    </div>
- </div>
-    <span class="text-center">
-    
-
-    </span>
-</div>
-
-
 </body>
-
 </html>

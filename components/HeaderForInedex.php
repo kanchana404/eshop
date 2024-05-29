@@ -27,10 +27,10 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mb-2 mb-lg-0" style="gap: 25px;">
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="./Men.php">Men</a>
+                                <a class="nav-link" aria-current="page" href="./components/Men.php">Men</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./Men.php">Women</a>
+                                <a class="nav-link" href="./components/Men.php">Women</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

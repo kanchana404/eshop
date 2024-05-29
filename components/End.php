@@ -6,9 +6,9 @@
    
         <?php
         $imgPaths = [];
-        $wpdall = Database::search("SELECT * FROM women INNER JOIN product ON product.id = women.product_id INNER JOIN product_img ON product_img.product_id = product.id INNER JOIN category ON product.category_c_id = category.c_id");
+        $wpdall = Database::search("SELECT * FROM product INNER JOIN product_img ON product_img.product_id = product.id INNER JOIN category ON product.category_c_id = category.c_id ORDER BY RAND() LIMIT 8");
         $wpdall_num = $wpdall->num_rows;
-        for ($x = 0; $x < $wpdall_num; $x++) {
+        for ($x = 0; $x < 8; $x++) {
             $wpdall_data = $wpdall->fetch_assoc();
             $imgSrc = $wpdall_data["path"]; // Fetching the image path from the database
             $imgPaths[] = $imgSrc;

@@ -20,7 +20,7 @@
     ?>
     <?php include './components/Navbar.php'; ?>
     <br>
-    <?php include './components/Header.php'; ?>
+    <?php include './components/HeaderForInedex.php'; ?>
     <?php include './components/Banner.php'; ?>
     <?php include './components/Hero.php'; ?>
     <br>
