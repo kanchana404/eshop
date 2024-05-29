@@ -958,7 +958,7 @@ function removewish() {
 }
 
 function addtocarthome(id) {
-
+alert("adws");
     var title = document.getElementById("title") + id;
 
 
@@ -974,14 +974,14 @@ function addtocarthome(id) {
             var t = r.responseText;
             if (t == "success") {
 
-                window.location = "cart.php";
+                window.location = "../components/cart.php";
             } else {
                 alert(t);
             }
 
         }
     }
-    r.open("POST", "addtocarthomeprocess.php", true);
+    r.open("POST", "/zzzz/app/addtocarthomeprocess.php", true);
 
     r.send(f);
 
@@ -1201,3 +1201,8 @@ function buynow2(){
       del_invoice(this);
     });
   });
+
+
+  function test() {
+alert("test");
+  }
