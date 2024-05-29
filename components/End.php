@@ -1,23 +1,8 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Hero</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-
-<body class="p-3 m-0 border-0 bd-example m-0 border-0 bd-example-row bd-example-row-flex-cols">
 
 
-   
-    <div class="col">
-    <div class="col">
-        <h1>For you..</h1>
-    </div>
-    <div class="row text-center" style="margin-top:50px;">
+    <div class="mt-5">
+    <h1>Trending Products</h1>
+<div class="row text-center" style="margin-top:50px;">
    
         <?php
         $imgPaths = [];
@@ -60,24 +45,4 @@
         }
         ?>
     </div>
-
- <div class="col">
-    <div class="row text-center">
-        <div class="col"></div>
-        <div class="col-4">
-        <button type="button" class="btn btn-info" style="width:100%; color:white;">Load More</button>
-        </div>
-        <div class="col"></div>
-    
     </div>
- </div>
-    <span class="text-center">
-    
-
-    </span>
-</div>
-
-
-</body>
-
-</html>

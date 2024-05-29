@@ -25,7 +25,7 @@ if (isset($_COOKIE["password"])) {
 </head>
 
 <body class="p-3 m-0 border-0 body">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light ">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="../public/logo.png" alt="Logo" style="height: 40px;">
@@ -35,19 +35,12 @@ if (isset($_COOKIE["password"])) {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-primary" type="submit">Search</button>
-            </form>
-          </li>
-        </ul>
+      
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <li class="nav-item" style="margin-right: 10px;">
             <form action="./components/cart.php" class="d-flex mt-2">
               <button style="background: none; border:none; color:#212529;" type="submit">
-                <i class="bi bi-bag"></i> <b>Shopping Cart</b>
+                <i class="bi bi-bag"></i> <b>Cart</b>
               </button>
             </form>
           </li>

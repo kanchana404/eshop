@@ -15,11 +15,23 @@
 </head>
 
 <body>
-   
+    <?php
+    require "./components/connection.php";
+    ?>
     <?php include './components/Navbar.php'; ?>
+    <br>
+    <?php include './components/Header.php'; ?>
     <?php include './components/Banner.php'; ?>
     <?php include './components/Hero.php'; ?>
+    <br>
+    <?php include './components/Middle.php'; ?>
+    <?php include './components/End.php'; ?>
+    <?php include './components/footer.php'; ?>
+    
 
 </body>
 <script src="./app/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
 </html>
