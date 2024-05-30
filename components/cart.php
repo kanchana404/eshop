@@ -66,7 +66,7 @@
                             <div class="col-7 text-start">
                                 <div class="row col-12">
                                     <div class="col-6">
-                                    <img src="<?php echo $pimg_data["path"]?>" style="width:150px; height:150px;">
+                                    <img src="../<?php echo $pimg_data["path"]?>" style="width:150px; height:150px;">
                                     </div>
                                     <div class="col-6 text-start mt-5">
                                     <p><b><?php echo $pcart_data["title"] ?></b></p>
@@ -117,10 +117,10 @@
                     <h1 class="text-center"><b>Total</b></h1>
                     <hr>
                     <div class="row col-12">
-                        <div class="col-3 text-center mt-5">
+                        <div class="col-4 text-center mt-5">
                             <h5><b>All products</b></h5>
                         </div>
-                        <div class="col-9 border-start">
+                        <div class="col-8 border-start">
                             <?php
                             $pcart_rs = Database::search("SELECT cart.*, product.*, (cart.cqty * product.price) AS total_price
                             FROM cart

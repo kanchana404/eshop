@@ -1,6 +1,7 @@
 <?php
+require "../components/connection.php";
 session_start();
-require "./components/connection.php";
+
 
 if (isset($_SESSION["u"])) {
     

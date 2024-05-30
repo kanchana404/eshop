@@ -52,7 +52,7 @@ if (isset($_COOKIE["password"])) {
               <span class="navbar-text me-2">
                 <b><?php echo $session_data["fname"] . " " . $session_data["lname"]; ?></b>
               </span>
-              <form action="userprofile.php" class="d-inline">
+              <form action="./components/userprofile.php" class="d-inline">
                 <button class="btn btn-link" style="background: none; border:none;">
                   <i class="bi bi-person"></i>
                 </button>

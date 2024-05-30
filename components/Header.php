@@ -30,7 +30,7 @@
                                 <a class="nav-link" aria-current="page" href="./Men.php">Men</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="./Men.php">Women</a>
+                                <a class="nav-link" href="./Women.php">Women</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

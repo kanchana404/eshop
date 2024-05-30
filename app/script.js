@@ -735,7 +735,7 @@ function delcart(id) {
 
         }
     }
-    r.open("POST", "deletecartprocess.php", true);
+    r.open("POST", "../app/deletecartprocess.php", true);
     r.send(f);
 }
 
@@ -958,7 +958,7 @@ function removewish() {
 }
 
 function addtocarthome(id) {
-alert("adws");
+
     var title = document.getElementById("title") + id;
 
 
