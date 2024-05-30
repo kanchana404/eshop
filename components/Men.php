@@ -44,7 +44,9 @@
                         
                         <div class="col-5 text-end">
                             <div class="row">
-                                <div class="col text-center"><i class="bi bi-bag"></i></div>
+                                <div class="col text-center">
+                                <button onclick="addtocarthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;"><i class="bi bi-bag"></i></button> 
+                                </div>
                                 <div class="col text-center"><i class="bi bi-heart"></i></div>
                             </div>
                         </div>
@@ -64,4 +66,6 @@
         ?>
     </div>
 </body>
+
+<script src="../app/script.js"></script>
 </html>

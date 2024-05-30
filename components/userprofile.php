@@ -49,7 +49,7 @@
 if (empty($image_data["path"])) {
 
 ?>
-    <img src="resources/profile.png" class="rounded mt-5" style="width:150px;">
+    <img src="../public/profile.png" class="rounded mt-5" style="width:150px;">
 <?php
 
 
@@ -77,12 +77,12 @@ if (empty($image_data["path"])) {
       </form>
      
     <div class="col-4">
-      <form action="purchsedhistory.php">
+      <form action="./purchsedhistory.php">
       <button style="background:none; border:none;"><b>Purchase History</b></button></div>
       </form>
      
     <div class="col-4">
-      <form action="invoices.php">
+      <form action="./invoices.php">
       <button style="background:none; border:none;"><b>Invoices</b></button></div>
       </form>
      
