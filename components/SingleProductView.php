@@ -23,7 +23,7 @@ if (isset($_GET["id"])) {
     </head>
 
     <body class="p-3 m-0 border-0 bd-example m-0 border-0 bd-example-row bd-example-row-flex-cols">
-    <?php include '../components/Navbar.php'; ?>
+    <?php include '../components/NavbarOther.php'; ?>
     <?php include '../components/Header.php'; ?>
     <br>
       <div class="container">
@@ -106,6 +106,8 @@ if (isset($_GET["id"])) {
   }
 }
 ?>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 
 <hr>

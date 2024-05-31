@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "connection.php";
+require "../components/connection.php";
 ?>
 
 <!doctype html>
@@ -310,7 +310,21 @@ require "connection.php";
               <button class="col-12 btn btn-success"  onclick="buynow22();">Cash On Delevery</button>
               </div>
               <div class="col-6">
-              <button type="submit" class="col-12 btn btn-warning" id="payhere-payment" onclick="paynow2(<?php echo $pcart_data['id']?>);">PayHere Pay</button>
+              <!-- <button type="submit" class="col-12 btn btn-warning" id="payhere-payment" onclick="paynow2(<?php echo $pcart_data['id']?>);">PayHere Pay</button> -->
+
+              </div>
+              <div class="row">
+                <form action="charge.php" method="post" id="payment-form">
+                  <div class="form-row">
+                    <label for="card-element">Credit or Debit Card</label>
+                    <div id="card-element"></div>
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" role="alert"></div>
+                  </div>
+                  <!-- Hidden input field to send sub_total value -->
+                  <input type="hidden" name="sub_total" id="sub_total_input" value="100"> <!-- Just for example, replace with actual value -->
+                  <button type="submit" class="btn btn-primary">Submit Payment</button>
+                </form>
 
               </div>
           </div>
@@ -333,6 +347,56 @@ require "connection.php";
 
   <script src="script.js"></script>
   <!-- End Example Code -->
+
+  <script>
+      var stripe = Stripe('pk_test_51PFLEeRxsgvmazU6rEx19khsDbhWc8RKvlCMXHayfjFxNnpHt0B0yMdkz6HmAuCQfRUEyJBEmocUkanr0JrbZzoe00gC6PK57k');
+      var elements = stripe.elements();
+      var style = {
+        base: {
+          color: '#32325d',
+          lineHeight: '24px',
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontSmoothing: 'antialiased',
+          fontSize: '16px',
+          '::placeholder': {
+            color: '#aab7c4'
+          }
+        },
+        invalid: {
+          color: '#fa755a',
+          iconColor: '#fa755a'
+        }
+      };
+      var card = elements.create('card', {
+        style: style
+      });
+      card.mount('#card-element');
+
+      var form = document.getElementById('payment-form');
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        stripe.createToken(card).then(function(result) {
+          if (result.error) {
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+          } else {
+            stripeTokenHandler(result.token);
+          }
+        });
+      });
+
+      function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+        form.submit();
+      }
+
+      document.getElementById("sub_total_input").value = document.getElementById("sub_total").innerText;
+    </script>
 </body>
 
 </html>

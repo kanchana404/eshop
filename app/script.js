@@ -882,7 +882,7 @@ function buynow() {
 
             if (t == "success") {
 
-                window.location = "buyprocess.php";
+                window.location = "../app/buyprocess.php";
 
 
 
@@ -892,7 +892,7 @@ function buynow() {
 
         }
     }
-    r.open("POST", "buynowprocess.php", true);
+    r.open("POST", "../app/buynowprocess.php", true);
     r.send();
 
 

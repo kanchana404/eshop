@@ -38,7 +38,7 @@ if (isset($_COOKIE["password"])) {
       
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item" style="margin-right: 10px;">
-            <form action="./components/cart.php" class="d-flex mt-2">
+            <form action="../components/cart.php" class="d-flex mt-2">
               <button style="background: none; border:none; color:#212529;" type="submit">
                 <i class="bi bi-bag"></i> <b>Cart</b>
               </button>
@@ -52,7 +52,7 @@ if (isset($_COOKIE["password"])) {
               <span class="navbar-text me-2">
                 <b><?php echo $session_data["fname"] . " " . $session_data["lname"]; ?></b>
               </span>
-              <form action="./components/userprofile.php" class="d-inline">
+              <form action="../components/userprofile.php" class="d-inline">
                 <button class="btn btn-link" style="background: none; border:none;">
                   <i class="bi bi-person"></i>
                 </button>
