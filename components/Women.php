@@ -13,7 +13,7 @@
 </head>
 <body>
 <?php
-    require "Navbar.php";
+    require "NavbarOther.php";
     require "connection.php";
     require "Header.php";
     ?>

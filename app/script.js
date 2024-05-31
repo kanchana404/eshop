@@ -93,7 +93,31 @@ function signout() {
         }
     }
 
-    r.open("GET", "app/signoutProcess.php", true);
+    r.open("GET", "./app/signoutProcess.php", true);
+    r.send();
+
+}
+
+function signout321() {
+
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function () {
+        if (r.readyState == 4 && r.status == 200) {
+            var t = r.responseText;
+
+            if (t == "success") {
+
+                // window.location.reload();
+                window.location = "./login.php";
+
+            } else {
+                alert(t);
+            }
+        }
+    }
+
+    r.open("GET", "../app/signoutProcess.php", true);
     r.send();
 
 }
@@ -1032,30 +1056,6 @@ function buynow1() {
 }
 
 
-function paynow(){
-    total = document.getElementById("sub_total").innerText;
-   
-    
-    var f = new FormData();
-    f.append("total", total);
-
-    var r = new XMLHttpRequest();
-
-    r.onreadystatechange = function () {
-        if (r.readyState == 4 && r.status == 200) {
-            var t = r.responseText;
-            if (t == "success") {
-
-
-            } else {
-                alert(t);
-            }
-        }
-    }
-
-    r.open("POST", "../app/stripe.php", true);
-    r.send(f);
-}
 
 function print(){
     window.print();

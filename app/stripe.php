@@ -1,36 +1,3 @@
-<?php
-require 'vendor/autoload.php';
-
-session_start();
-
-// Set your secret key. Remember to switch to your live secret key in production.
-\Stripe\Stripe::setApiKey('sk_test_51PFLEeRxsgvmazU6kxEZ5WmbgmDZOrjV70Aa6TEbQ8uqzWEw5XyjmtWaphPhiZtJERDnerbTcpgweZD2WcjyMEiZ00kUKCcHjo');
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['stripeToken']) && isset($_POST['total'])) {
-        // Get the token from the form submission
-        $token = $_POST['stripeToken'];
-        $total = $_POST['total'];
-
-        // Convert total to cents
-        $totalCents = $total * 100;
-
-        // Create a charge: this will charge the user's card
-        $charge = \Stripe\Charge::create([
-            'amount' => $totalCents, // Amount in cents
-            'currency' => 'lkr',
-            'description' => 'Example charge',
-            'source' => $token,
-        ]);
-
-        echo '<h1>Successfully charged Rs ' . htmlspecialchars($total) . '!</h1>';
-    } else {
-        echo 'Error: Stripe token or total amount not set.';
-    }
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h2>Payment Form</h2>
-    <form action="" method="post" id="payment-form">
+    <form action="charge.php" method="post" id="payment-form">
         <div class="form-row">
             <label for="card-element">
                 Credit or Debit Card
@@ -93,8 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Used to display form errors. -->
             <div id="card-errors" role="alert"></div>
         </div>
-        <input type="hidden" name="total" id="total" value="">
-        <button type="button" onclick="paynow()">Submit Payment</button>
+        <button>Submit Payment</button>
     </form>
 
     <script>
@@ -126,28 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 displayError.textContent = '';
             }
         });
-
-        function stripeTokenHandler(token) {
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-
-            var total = document.getElementById('sub_total').innerText;
-            if (total) {
-                document.getElementById('total').value = total;
-            } else {
-                console.error('Total amount not set');
-            }
-
-            console.log('Submitting form with token and total:', token.id, total);
-            form.submit();
-        }
-
-        function paynow() {
-            var form = document.getElementById('payment-form');
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
             stripe.createToken(card).then(function(result) {
                 if (result.error) {
                     var errorElement = document.getElementById('card-errors');
@@ -156,6 +103,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     stripeTokenHandler(result.token);
                 }
             });
+        });
+        function stripeTokenHandler(token) {
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+            form.submit();
         }
     </script>
 </body>
