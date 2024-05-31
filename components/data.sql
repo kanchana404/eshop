@@ -14,6 +14,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+-- Dumping database structure for vivaaluth
+CREATE DATABASE IF NOT EXISTS `vivaaluth` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `vivaaluth`;
+
 -- Dumping structure for table vivaaluth.admin
 CREATE TABLE IF NOT EXISTS `admin` (
   `fname` varchar(45) DEFAULT NULL,
@@ -26,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   CONSTRAINT `fk_admin_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table vivaaluth.admin: ~1 rows (approximately)
+-- Dumping data for table vivaaluth.admin: ~0 rows (approximately)
 INSERT INTO `admin` (`fname`, `lname`, `email`, `password`, `product_id`) VALUES
 	('kk', 'kk', 'kavithakgb2003@gmail.com', 'Kavitha@#2003', 0);
 
@@ -70,8 +75,6 @@ CREATE TABLE IF NOT EXISTS `cart` (
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table vivaaluth.cart: ~1 rows (approximately)
-INSERT INTO `cart` (`id`, `cqty`, `product_id`, `user_email`) VALUES
-	(25, '1', 7, 'kavithakgb2003@gmail.com');
 
 -- Dumping structure for table vivaaluth.cashondel_invoice_cart_product
 CREATE TABLE IF NOT EXISTS `cashondel_invoice_cart_product` (

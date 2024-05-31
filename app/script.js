@@ -925,7 +925,7 @@ function buynow44() {
     var qty = document.getElementById("value").textContent;
 
 
-    window.location = "buynownowwwprocess.php?pid=" + pid + "&qty=" + qty;
+    window.location = "../app/buynownowwwprocess.php?pid=" + pid + "&qty=" + qty;
 
 
 
@@ -1032,122 +1032,30 @@ function buynow1() {
 }
 
 
-function paynow(id) {
-    var title = document.getElementById("title") + id;
-    var qty = document.getElementById("qqty").innerText;
-    var delfee = document.getElementById("delfee").innerText;
-
-
+function paynow(){
+    total = document.getElementById("sub_total").innerText;
+   
+    
+    var f = new FormData();
+    f.append("total", total);
 
     var r = new XMLHttpRequest();
 
     r.onreadystatechange = function () {
-        if (r.readyState == 4 & r.status == 200) {
+        if (r.readyState == 4 && r.status == 200) {
             var t = r.responseText;
-            if (t == "success")
+            if (t == "success") {
+
+
+            } else {
                 alert(t);
-            else {
-                var obj = JSON.parse(t);
-
-                // Payment completed. It can be a successful failure.
-                payhere.onCompleted = function onCompleted(orderId) {
-                    console.log("Payment completed. OrderID:" + orderId);
-
-                    window.location = "successpage.php?&orderid=" + orderId + "&delfee=" + delfee + "&qty=" + qty + "&title=" + title;
-
-                    // Note: validate the payment and show success or failure page to the customer
-
-
-
-
-                    var f = new FormData();
-                    f.append("qty", qty);
-                    f.append("title", title);
-
-
-
-                    var r = new XMLHttpRequest();
-                    r.onreadystatechange = function () {
-                        if (r.readyState == 4 && r.status == 200) {
-                            var t = r.responseText;
-                            if (t == "success") {
-
-                                console.log("Order ID: " + jsonObject.id);
-                                console.log("Item: " + jsonObject.item);
-                                console.log("Amount: " + jsonObject.amount);
-                              
-                                // window.location = "successpage.php?&orderid=" + orderId;
-
-                            } else {
-                                alert(t);
-                            }
-
-                        }
-                    }
-                    r.open("POST", "aftersuccessremoveqty.php", true);
-                    r.send(f);
-
-                   
-
-
-
-                };
-
-                // Payment window closed
-                payhere.onDismissed = function onDismissed() {
-                    // Note: Prompt user to pay again or show an error page
-                    console.log("Payment dismissed");
-                };
-
-                // Error occurred
-                payhere.onError = function onError(error) {
-                    // Note: show an error page
-                    console.log("Error:" + error);
-                };
-
-                // Put the payment variables here
-                var payment = {
-                    "sandbox": true,
-                    "merchant_id": "1224479",    // Replace your Merchant ID
-                    "return_url": "https://devkithub.com/return",     // Important
-                    "cancel_url": "https://devkithub.com/cancle",     // Important
-                    "notify_url": "http://sample.com/notify",
-                    "order_id": obj["id"],
-                    "items": obj["item"],
-                    "amount": obj["amount"],
-                    "currency": "LKR",
-                    "hash": obj["hash"], // *Replace with generated hash retrieved from backend
-                    "first_name": obj["fname"],
-                    "last_name": obj["lname"],
-                    "email": obj["umail"],
-                    "phone": obj["mobile"],
-                    "address": obj["address"],
-                    "city": obj["city"],
-                    "country": "Sri Lanka",
-                    "delivery_address": obj["address"],
-                    "delivery_city": obj["city"],
-                    "delivery_country": "Sri Lanka",
-                    "custom_1": "",
-                    "custom_2": ""
-                };
-
-                // Show the payhere.js popup, when "PayHere Pay" is clicked
-                document.getElementById('payhere-payment').onclick = function (e) {
-                    payhere.startPayment(payment);
-                };
-
             }
-
-
         }
     }
 
-    r.open("GET", "buynow3process.php?id=" + id + "&qty=" + qty, true);
-    r.send();
+    r.open("POST", "../app/stripe.php", true);
+    r.send(f);
 }
-
-// Call the buynow1() function immediately
-
 
 function print(){
     window.print();
@@ -1167,7 +1075,7 @@ function buynow2(){
     
 
 
-    window.location = "cashondelsinglepsuccesspage.php?delfee=" + delfee + "&qqty=" + qqty + "&title=" + title + "&sub_total=" + sub_total + "&price=" + price;
+    window.location = "../app/cashondelsinglepsuccesspage.php?delfee=" + delfee + "&qqty=" + qqty + "&title=" + title + "&sub_total=" + sub_total + "&price=" + price;
 }
 
 

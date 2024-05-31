@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../components/connection.php";
+require "connection.php";
 ?>
 
 <!doctype html>
@@ -204,7 +204,7 @@ require "../components/connection.php";
                 <button class="col-12 btn btn-success" onclick="buynow2();">Cash On Delivery</button>
               </div>
               <div class="col-6">
-                <button type="submit" class="col-12 btn btn-warning" id="payhere-payment" onclick="paynow();">PayHere Pay</button>
+                <button type="submit" class="col-12 btn btn-warning" id="payhere-payment" onclick="paynow(<?php echo $pcart_data['id'] ?>);">PayHere Pay</button>
               </div>
             </div>
           </div>
@@ -227,10 +227,8 @@ require "../components/connection.php";
             echo "alert('Please Login First');";
           }
     ?>
-
- 
   </script>
-  <script src="../app/script.js"></script>
+  <script src="script.js"></script>
   <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 </body>
 
