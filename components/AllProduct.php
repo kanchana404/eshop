@@ -31,34 +31,38 @@
             $imgPaths[] = $imgSrc;
         ?>
             <div class="col-lg-3 col-md-6 col-sm-12 text-center mb-4"> <!-- Added Bootstrap margin-bottom class -->
-                <div class="container" id="box">
-                    <img src="../<?php echo $imgSrc; ?>" alt="" style="clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);">
-                    <div class="row text-center" style="margin-top:-80px;">
-                        <h5><?php echo $wpdall_data["title"] ?></h5>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-7 text-start">
-                            <h6>Category: <?php echo $wpdall_data["c_name"] ?></h6>
+                    <div class="container" id="box">
+                        <img src="../<?php echo $imgSrc; ?>" alt="" style="clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);">
+                        <div class="row text-center" style="margin-top:-80px;">
+                            <h5>
+                                <span id="title1"><b><?php echo $wpdall_data["title"] ?></b></a></span>
+                            </h5>
                         </div>
-                        
-                        <div class="col-5 text-end">
-                            <div class="row">
-                                <div class="col text-center"><i class="bi bi-bag"></i></div>
-                                <div class="col text-center"><i class="bi bi-heart"></i></div>
+                        <br>
+                        <div class="row">
+                            <div class="col-7 text-start">
+                                <h6>Category: <?php echo $wpdall_data["c_name"] ?></h6>
+                            </div>
+
+                            <div class="col-5 text-end">
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <button onclick="addtocarthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;"><i class="bi bi-bag"></i></button>
+                                    </div>
+                                    <div class="col text-center"><i class="bi bi-heart"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-start">
+                            <h6>Price: Rs <?php echo $wpdall_data["price"] ?>.00</h6>
+                        </div>
+                        <div class="col" style="margin-bottom: 10px;">
+                            <div class="row text-center">
+                                <button type="button" class="btn btn-primary"><a href="<?php echo "./singleproductview.php?id=" . ($wpdall_data["product_id"]); ?>" style="color:white; text-decoration:none;">Buy now</a></button>
                             </div>
                         </div>
                     </div>
-                    <div class="row text-start">
-                        <h6>Price: Rs <?php echo $wpdall_data["price"] ?>.00</h6>
-                    </div>
-                    <div class="col" style="margin-bottom: 10px;">
-                        <div class="row text-center">
-                            <button type="button" class="btn btn-primary">But now</button>
-                        </div>
-                    </div>
                 </div>
-            </div>
         <?php
         }
         ?>

@@ -1,4 +1,3 @@
-
 <?php require "../components/connection.php"; ?>
 
 <?php
@@ -23,9 +22,9 @@ if (isset($_GET["id"])) {
     </head>
 
     <body class="p-3 m-0 border-0 bd-example m-0 border-0 bd-example-row bd-example-row-flex-cols">
-    <?php include '../components/NavbarOther.php'; ?>
-    <?php include '../components/Header.php'; ?>
-    <br>
+      <?php include '../components/NavbarOther.php'; ?>
+      <?php include '../components/Header.php'; ?>
+      <br>
       <div class="container">
         <div class="row">
           <div class="col-lg-7 col-md-12 col-sm-12 border-end text-center mt-5">
@@ -55,22 +54,26 @@ if (isset($_GET["id"])) {
             <div class="warranty">
               <b>Warranty: 6 Months Warranty</b><br>
               <b>Return Policy: 1 Month Return Policy</b><br>
-              <b >Available stock: 
-              <span id="stock"> <?php echo $product_data["qty"] ?></b></span>  
-             
+              <b>Available stock:
+                <span id="stock"> <?php echo $product_data["qty"] ?></b></span>
+
             </div>
             <br>
             <div class="row col-6 col-lg-12">
 
               <div class="col-4" style="margin-left: 35px;">
-                
-              <div class="row col-12">
-                <div class="col-12 gap-3 text-center" id="qtyb">
-                  <button class="col-4" onclick="minas();" style="background: none; border:none;"><h3><b>-</b></h3></button>
-                  <span class="col-4" id="value"><b>1</b></span>
-                  <button class="col-4" onclick="plus();" style="background: none; border:none;"><h3><b>+</b></h3></button>
+
+                <div class="row col-12">
+                  <div class="col-12 gap-3 text-center" id="qtyb">
+                    <button class="col-4" onclick="minas();" style="background: none; border:none;">
+                      <h3><b>-</b></h3>
+                    </button>
+                    <span class="col-4" id="value"><b>1</b></span>
+                    <button class="col-4" onclick="plus();" style="background: none; border:none;">
+                      <h3><b>+</b></h3>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
 
               </div>
@@ -78,9 +81,9 @@ if (isset($_GET["id"])) {
                 <button class="btn btn-primary col-12 mt-1" style="border-radius: 15px;" onclick="addtocart();">Add to cart</button>
               </div>
             </div>
-<br>
+            <br>
             <div class="col-12">
-              <button class="btn btn-success col-12" style="border-radius: 15px;" id="pidforsp<?php echo $product_data["id"]?>" onclick="buynow44();">Buy Now</button>
+              <button class="btn btn-success col-12" style="border-radius: 15px;" id="pidforsp<?php echo $product_data["id"] ?>" onclick="buynow44();">Buy Now</button>
             </div>
             <br>
             <div class="col-12">
@@ -91,10 +94,16 @@ if (isset($_GET["id"])) {
         </div>
       </div>
       </div>
+      <hr>
+<section>
+  <h1>Similer Products.</h1>
+
+</section>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
     </body>
-
-    </html>
+       </html>
 
   <?php
   } else {
@@ -106,12 +115,7 @@ if (isset($_GET["id"])) {
   }
 }
 ?>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
 
-<hr>
-    <section>
-        <h1>Similer Products.</h1>
-        
-    </section>
+
+

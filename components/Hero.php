@@ -34,7 +34,7 @@
                         <img src="<?php echo $imgSrc; ?>" alt="" style="clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);">
                         <div class="row text-center" style="margin-top:-80px;">
                             <h5>
-                                <span id="title1"><a href="<?php echo "./components/singleproductview.php?id=" . ($wpdall_data["product_id"]); ?>" style="color:black;"><b><?php echo $wpdall_data["title"] ?></b></a></span>
+                                <span id="title1"><b><?php echo $wpdall_data["title"] ?></b></a></span>
                             </h5>
                         </div>
                         <br>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col" style="margin-bottom: 10px;">
                             <div class="row text-center">
-                                <button type="button" class="btn btn-primary">But now</button>
+                                <button type="button" class="btn btn-primary"><a href="<?php echo "./components/singleproductview.php?id=" . ($wpdall_data["product_id"]); ?>" style="color:white; text-decoration:none;">Buy now</a></button>
                             </div>
                         </div>
                     </div>
