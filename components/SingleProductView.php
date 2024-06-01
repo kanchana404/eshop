@@ -41,7 +41,7 @@ if (isset($_GET["id"])) {
               <label title="text" for="star4"></label>
               <input value="3" name="rate" id="star3" type="radio">
               <label title="text" for="star3"></label>
-              <input value="2" name "rate" id="star2" type="radio">
+              <input value="2" name="rate" id="star2" type="radio">
               <label title="text" for="star2"></label>
               <input value="1" name="rate" id="star1" type="radio">
               <label title="text" for="star1"></label>
@@ -55,7 +55,7 @@ if (isset($_GET["id"])) {
               <b>Warranty: 6 Months Warranty</b><br>
               <b>Return Policy: 1 Month Return Policy</b><br>
               <b>Available stock:
-                <span id="stock"> <?php echo $product_data["qty"] ?></b></span>
+                <span id="stock"> <?php echo $product_data["qty"] ?></span></b>
 
             </div>
             <br>
@@ -93,21 +93,88 @@ if (isset($_GET["id"])) {
           </div>
         </div>
       </div>
-      </div>
       <hr>
-<section>
-  <h1>Similer Products.</h1>
+      <section>
+        <br>
+        <br>
+        <br>
+        <h1>Similar Products.</h1>
+        <br>
+        <?php
+        $sproduct_rs = Database::search("SELECT product.*, category.c_name, brand.*, product_img.*
+        FROM product
+        INNER JOIN category ON product.category_c_id = category.c_id
+        INNER JOIN brand ON brand.b_id = product.brand_b_id
+        INNER JOIN product_img ON product.id = product_img.product_id
+        WHERE product.category_c_id = (
+          SELECT category_c_id
+          FROM product
+          WHERE id = '" . $pid . "'
+        );");
+        $sproduct_num = $sproduct_rs->num_rows;
+        if ($sproduct_num > 0) {
+          while ($sproduct_data = $sproduct_rs->fetch_assoc()) {
+        ?>
+       <div class="col">
+    <div class="row">
+        <?php
+        while ($sproduct_data = $sproduct_rs->fetch_assoc()) {
+        ?>
+            <div class="col-lg-3 col-md-6 col-sm-12 text-center mb-4"> <!-- Added Bootstrap margin-bottom class -->
+                <div class="container" id="box">
+                    <img src="../<?php echo $sproduct_data['path']; ?>" alt="" style="clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);">
+                    <div class="row text-center" style="margin-top:-80px;">
+                        <h5>
+                            <span id="title1"><b><?php echo $sproduct_data["title"] ?></b></span>
+                        </h5>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-7 text-start">
+                            <h6>Category: <?php echo $sproduct_data["c_name"] ?></h6>
+                        </div>
+                        <div class="col-5 text-end">
+                            <div class="row">
+                                <div class="col text-center">
+                                    <button onclick="addtocarthome(<?php echo $sproduct_data['id'] ?>);" style="border: none; background:none;"><i class="bi bi-bag"></i></button>
+                                </div>
+                                <div class="col text-center"><i class="bi bi-heart"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-start">
+                        <h6>Price: Rs <?php echo $sproduct_data["price"] ?>.00</h6>
+                    </div>
+                    <div class="col" style="margin-bottom: 10px;">
+                        <div class="row text-center">
+                            <a href="<?php echo "./components/singleproductview.php?id=" . $sproduct_data["id"]; ?>" style="color:white; text-decoration:none;">
+                                <button type="button" class="btn btn-primary">Buy now</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+</div>
 
-</section>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+        <?php
+          }
+        }
+        ?>
+      </section>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
     </body>
-       </html>
 
-  <?php
+    </html>
+
+<?php
   } else {
-  ?>
+?>
     <script>
       alert("Something went wrong");
     </script>
@@ -115,7 +182,3 @@ if (isset($_GET["id"])) {
   }
 }
 ?>
-
-
-
-
