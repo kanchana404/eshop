@@ -41,7 +41,8 @@
                         </div>
                         <div class="col" style="margin-bottom: 10px;">
                             <div class="row text-center">
-                                <button type="button" class="btn btn-primary"><a href="<?php echo "./components/singleproductview.php?id=" . ($wpdall_data["product_id"]); ?>" style="color:white; text-decoration:none;">Buy now</a></button>
+                                                               <a href="<?php echo "./components/singleproductview.php?id=" . ($wpdall_data["product_id"]); ?>" style="color:white; text-decoration:none;"<button type="button" class="btn btn-primary">Buy now</button></a>
+
                             </div>
                         </div>
                     </div>

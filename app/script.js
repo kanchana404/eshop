@@ -790,7 +790,7 @@ function plus1(id) {
 
         }
     }
-    r.open("POST", "addqtyprocess.php", true);
+    r.open("POST", "../app/addqtyprocess.php", true);
     r.send(f);
 
     var priceElement = document.getElementById("price" + id); // Get the price element
@@ -843,7 +843,7 @@ function minas1(id) {
 
             }
         }
-        r.open("POST", "removeqtyprocess.php", true);
+        r.open("POST", "../app/removeqtyprocess.php", true);
         r.send(f);
 
         var priceElement = document.getElementById("price" + id); // Get the price element

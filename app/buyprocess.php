@@ -13,6 +13,57 @@ require "../components/connection.php";
 
   <title>Bootstrap Example</title>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .form-row {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    #card-element {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+
+    #card-errors {
+      color: #fa755a;
+      margin-top: 12px;
+    }
+
+    button {
+      background-color: #6772e5;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #5469d4;
+    }
+  </style>
 </head>
 
 <body class="p-3 m-0 border-0 bd-example m-0 border-0 bd-example-row bd-example-row-flex-cols">
@@ -242,8 +293,8 @@ require "../components/connection.php";
 
         ?>
           <h9 id="pnameall"><b><?php echo $pcart_data["title"] ?> =</b> Rs. <span id="price<?php echo $pcart_data['id'] ?>"><?php echo $pcart_data["fprice"] ?></span>.00 X
-        <span id="qqty"><?php echo $pcart_data["cqty"]?></span>
-        </h9>
+            <span id="qqty"><?php echo $pcart_data["cqty"] ?></span>
+          </h9>
 
           <hr>
         <?php
@@ -300,55 +351,40 @@ require "../components/connection.php";
 
             <h5 class="text-start"><b>Sub Total :- Rs.<span id="sub_total">Select the province</span>.00 </b> </h5>
 
-          
-          
+
+
             <br>
             <br>
 
             <div class="row col-12">
-              <div class="col-6">
-              <button class="col-12 btn btn-success"  onclick="buynow22();">Cash On Delevery</button>
-              </div>
-              <div class="col-6">
-              <!-- <button type="submit" class="col-12 btn btn-warning" id="payhere-payment" onclick="paynow2(<?php echo $pcart_data['id']?>);">PayHere Pay</button> -->
-
-              </div>
-              <div class="row">
-                <form action="charge.php" method="post" id="payment-form">
-                  <div class="form-row">
-                    <label for="card-element">Credit or Debit Card</label>
-                    <div id="card-element"></div>
-                    <!-- Used to display form errors. -->
-                    <div id="card-errors" role="alert"></div>
-                  </div>
-                  <!-- Hidden input field to send sub_total value -->
-                  <input type="hidden" name="sub_total" id="sub_total_input" value="100"> <!-- Just for example, replace with actual value -->
-                  <button type="submit" class="btn btn-primary">Submit Payment</button>
-                </form>
-
-              </div>
+              <button class="col-12 btn btn-success" onclick="buynow22();">Cash On Delevery</button>
+            </div>
+            <div class="col">
+  <form action="charge.php" method="post" id="payment-form">
+    <div class="form-row">
+      <!-- Removed the visible input form for amount -->
+      <input type="hidden" id="amount" name="amount" required>
+    </div>
+    <div class="form-row">
+      <label for="card-element">
+        Credit or Debit Card
+      </label>
+      <div id="card-element">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
+      <!-- Used to display form errors. -->
+      <div id="card-errors" role="alert"></div>
+    </div>
+    <button type="submit">Submit Payment</button>
+    <input type="hidden" id="currency" name="currency" value="lkr">
+  </form>
+</div>
           </div>
         </div>
+
       </div>
-
     </div>
-  </div>
-  <script>
-    var delfee = parseFloat(document.getElementById("delfee").innerText); // Parse as a number if necessary
-    var totalgana = parseFloat(document.getElementById("totalgana").innerText); // Parse as a number if necessary
-    var sub_total = document.getElementById("sub_total");
-
-    if (!isNaN(delfee) && !isNaN(totalgana)) {
-      var subtotal = delfee + totalgana;
-      sub_total.innerText =  subtotal; // Update the sub_total element's text content
-    }
-  </script>
-  <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
-
-  <script src="script.js"></script>
-  <!-- End Example Code -->
-
-  <script>
+    <script>
       var stripe = Stripe('pk_test_51PFLEeRxsgvmazU6rEx19khsDbhWc8RKvlCMXHayfjFxNnpHt0B0yMdkz6HmAuCQfRUEyJBEmocUkanr0JrbZzoe00gC6PK57k');
       var elements = stripe.elements();
       var style = {
@@ -371,7 +407,14 @@ require "../components/connection.php";
         style: style
       });
       card.mount('#card-element');
-
+      card.addEventListener('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+          displayError.textContent = event.error.message;
+        } else {
+          displayError.textContent = '';
+        }
+      });
       var form = document.getElementById('payment-form');
       form.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -394,9 +437,33 @@ require "../components/connection.php";
         form.appendChild(hiddenInput);
         form.submit();
       }
-
-      document.getElementById("sub_total_input").value = document.getElementById("sub_total").innerText;
     </script>
+    <script>
+  // Function to calculate and set the subtotal
+  function calculateSubtotal() {
+    var delfee = parseFloat(document.getElementById("delfee").innerText); // Parse as a number if necessary
+    var totalgana = parseFloat(document.getElementById("totalgana").innerText); // Parse as a number if necessary
+    var sub_total = document.getElementById("sub_total");
+
+    if (!isNaN(delfee) && !isNaN(totalgana)) {
+      var subtotal = delfee + totalgana;
+      sub_total.innerText = subtotal; // Update the sub_total element's text content
+      document.getElementById("amount").value = subtotal.toFixed(2); // Set the amount input field value
+    }
+  }
+
+  // Bind the function to form submission
+  document.getElementById("payment-form").addEventListener("submit", function(event) {
+    calculateSubtotal();
+  });
+
+  // Initial calculation on page load
+  calculateSubtotal();
+</script>
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+
+    <script src="script.js"></script>
+    <!-- End Example Code -->
 </body>
 
 </html>
