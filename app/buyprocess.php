@@ -72,7 +72,7 @@ require "../components/connection.php";
 
   <div class="container">
     <div class="row align-items-start">
-      <div class="col-8 text-center border-end">
+      <div class="col-lg-8 col-md-12 col-sm-12 text-center border-end">
         <h1><b>User Details</b></h1>
         <br>
         <hr>
@@ -276,7 +276,7 @@ require "../components/connection.php";
         </div>
       </div>
 
-      <div class="col-4 text-center">
+      <div class="col-lg-4 col-md-12 col-sm-12 text-center">
         <h1><b>Sub total</b></h1>
         <br>
         <hr>
