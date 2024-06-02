@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'vendor/autoload.php';
 
 // Set your secret key. Remember to switch to your live secret key in production.
@@ -10,7 +11,13 @@ $token = $_POST['stripeToken'];
 $amount = $_POST['amount'];
 $currency = $_POST['currency'];
 
-// Create a charge: this will charge the user's card
+// Collect order details (assuming these are passed via POST, adjust as needed)
+$orderDetails = [
+    'product_names' => isset($_POST['product_names']) ? $_POST['product_names'] : [],
+    'quantities' => isset($_POST['quantities']) ? $_POST['quantities'] : [],
+    'prices' => isset($_POST['prices']) ? $_POST['prices'] : []
+];
+
 try {
     $charge = \Stripe\Charge::create([
         'amount' => $amount * 100, // Amount in cents
@@ -19,8 +26,15 @@ try {
         'source' => $token,
     ]);
 
-    echo '<h1>Successfully charged ' . strtoupper($currency) . ' ' . number_format($amount, 2) . '</h1>';
-} catch(\Stripe\Exception\CardException $e) {
+    // Store order details in session
+    $_SESSION['order_details'] = $orderDetails;
+    $_SESSION['amount'] = $amount;
+    $_SESSION['currency'] = $currency;
+
+    // Redirect to invoice.php
+    header('Location: ../components/invoice.php');
+    exit();
+} catch (\Stripe\Exception\CardException $e) {
     echo 'Error: ' . $e->getMessage();
 }
 ?>

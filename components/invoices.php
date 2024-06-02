@@ -45,14 +45,9 @@ for ($i = 0; $i < $invoice_rs_num; $i++) {
 }
 ?>
 
-    <!-- Example Code -->
-    
-    
-    
-    <!-- End Example Code -->
   </body>
 
-  <script src="script.js"></script>
+  <script src="../app/script.js"></script>
 </html>
 
 

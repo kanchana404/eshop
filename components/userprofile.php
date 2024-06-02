@@ -17,7 +17,8 @@
   <!-- Example Code -->
   <div class="container-fluid">
     <?php
-    session_start();
+    
+    require "NavbarOther.php";
     require "connection.php";
 
     if (isset($_SESSION["u"])) {
@@ -307,7 +308,7 @@ $city_num = $city_rs->num_rows;
 
   <!-- End Example Code -->
 
-  <script src="script.js"></script>
+  <script src="../app/script.js"></script>
 </body>
 
 </html>

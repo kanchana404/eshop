@@ -164,13 +164,14 @@ function updateprofile() {
     var last_name = document.getElementById("lname");
     var mobile_no = document.getElementById("mobile");
     var password = document.getElementById("pw");
-    var email = document.getElementById("email");
+    var email = document.getElementById("D");
     var address_line1 = document.getElementById("line1");
     var address_line2 = document.getElementById("line2");
     var district = document.getElementById("district");
     var province = document.getElementById("province");
     var city = document.getElementById("city");
     var postal_code = document.getElementById("pc");
+
 
 
     var f = new FormData();
@@ -203,7 +204,7 @@ function updateprofile() {
     }
 
 
-    r.open("POST", "userprofileupdateprocess.php", true);
+    r.open("POST", "../app/userprofileupdateprocess.php", true);
     r.send(f);
 }
 
@@ -693,7 +694,7 @@ function addtocart() {
 
         }
     }
-    r.open("POST", "addtocartprocess.php", true);
+    r.open("POST", "../app/addtocartprocess.php", true);
 
     r.send(f);
 
@@ -1075,7 +1076,7 @@ function buynow2(){
     
 
 
-    window.location = "../app/cashondelsinglepsuccesspage.php?delfee=" + delfee + "&qqty=" + qqty + "&title=" + title + "&sub_total=" + sub_total + "&price=" + price;
+    window.location = "../components/cashondelsinglepsuccesspage.php?delfee=" + delfee + "&qqty=" + qqty + "&title=" + title + "&sub_total=" + sub_total + "&price=" + price;
 }
 
 
@@ -1098,7 +1099,7 @@ function buynow2(){
       }
     };
 
-    r.open("POST", "deleteinvoiceprocess.php", true);
+    r.open("POST", "../app/deleteinvoiceprocess.php", true);
     r.send(f);
   }
 
