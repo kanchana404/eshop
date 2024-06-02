@@ -8,10 +8,11 @@ require "../components/connection.php";
 
 <head>
   <meta charset="utf-8">
+  <link rel="shortcut icon" type="image/x-icon" href="../public/logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <title>Bootstrap Example</title>
+  <title>Ameliya</title>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script src="https://js.stripe.com/v3/"></script>
