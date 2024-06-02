@@ -176,7 +176,7 @@
     <?php
     }
     ?>
-
+<script src="../app/script.js"></script>
     <!-- End Example Code -->
 </body>
 

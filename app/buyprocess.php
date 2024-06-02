@@ -460,9 +460,7 @@ require "../components/connection.php";
   // Initial calculation on page load
   calculateSubtotal();
 </script>
-    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
-
-    <script src="script.js"></script>
+    <script src="../app/script.js"></script>
     <!-- End Example Code -->
 </body>
 
