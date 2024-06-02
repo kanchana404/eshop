@@ -14,7 +14,7 @@
 
     <!-- Example Code -->
     <?php
-    require "Navbar.php";
+    require "NavbarOther.php";
     require "connection.php";
 
 

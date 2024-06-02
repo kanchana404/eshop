@@ -1080,6 +1080,15 @@ function buynow2(){
 }
 
 
+function buynow22(){
+
+    var delfee = document.getElementById("delfee").innerHTML;
+   
+    window.location = "../app/cashondelcartsuccesspage.php?delfee=" + delfee;
+
+    
+}
+
 
   // Function to handle the delete button click and send the invoice_id to the server
   function del_invoice(button) {
