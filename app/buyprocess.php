@@ -361,25 +361,25 @@ require "../components/connection.php";
               <button class="col-12 btn btn-success" onclick="buynow22();">Cash On Delevery</button>
             </div>
             <div class="col">
-  <form action="charge.php" method="post" id="payment-form">
-    <div class="form-row">
-      <!-- Removed the visible input form for amount -->
-      <input type="hidden" id="amount" name="amount" required>
-    </div>
-    <div class="form-row">
-      <label for="card-element">
-        Credit or Debit Card
-      </label>
-      <div id="card-element">
-        <!-- A Stripe Element will be inserted here. -->
-      </div>
-      <!-- Used to display form errors. -->
-      <div id="card-errors" role="alert"></div>
-    </div>
-    <button type="submit">Submit Payment</button>
-    <input type="hidden" id="currency" name="currency" value="lkr">
-  </form>
-</div>
+              <form action="charge.php" method="post" id="payment-form">
+                <div class="form-row">
+                  <!-- Removed the visible input form for amount -->
+                  <input type="hidden" id="amount" name="amount" required>
+                </div>
+                <div class="form-row">
+                  <label for="card-element">
+                    Credit or Debit Card
+                  </label>
+                  <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                  </div>
+                  <!-- Used to display form errors. -->
+                  <div id="card-errors" role="alert"></div>
+                </div>
+                <button type="submit">Submit Payment</button>
+                <input type="hidden" id="currency" name="currency" value="lkr">
+              </form>
+            </div>
           </div>
         </div>
 
@@ -440,27 +440,27 @@ require "../components/connection.php";
       }
     </script>
     <script>
-  // Function to calculate and set the subtotal
-  function calculateSubtotal() {
-    var delfee = parseFloat(document.getElementById("delfee").innerText); // Parse as a number if necessary
-    var totalgana = parseFloat(document.getElementById("totalgana").innerText); // Parse as a number if necessary
-    var sub_total = document.getElementById("sub_total");
+      // Function to calculate and set the subtotal
+      function calculateSubtotal() {
+        var delfee = parseFloat(document.getElementById("delfee").innerText); // Parse as a number if necessary
+        var totalgana = parseFloat(document.getElementById("totalgana").innerText); // Parse as a number if necessary
+        var sub_total = document.getElementById("sub_total");
 
-    if (!isNaN(delfee) && !isNaN(totalgana)) {
-      var subtotal = delfee + totalgana;
-      sub_total.innerText = subtotal; // Update the sub_total element's text content
-      document.getElementById("amount").value = subtotal.toFixed(2); // Set the amount input field value
-    }
-  }
+        if (!isNaN(delfee) && !isNaN(totalgana)) {
+          var subtotal = delfee + totalgana;
+          sub_total.innerText = subtotal; // Update the sub_total element's text content
+          document.getElementById("amount").value = subtotal.toFixed(2); // Set the amount input field value
+        }
+      }
 
-  // Bind the function to form submission
-  document.getElementById("payment-form").addEventListener("submit", function(event) {
-    calculateSubtotal();
-  });
+      // Bind the function to form submission
+      document.getElementById("payment-form").addEventListener("submit", function(event) {
+        calculateSubtotal();
+      });
 
-  // Initial calculation on page load
-  calculateSubtotal();
-</script>
+      // Initial calculation on page load
+      calculateSubtotal();
+    </script>
     <script src="../app/script.js"></script>
     <!-- End Example Code -->
 </body>
