@@ -38,7 +38,7 @@
                 <hr>
                 <div class="row col-12">
                   <div class="col-3">
-                    <img src="<?php echo $wishproducts_data["path"]?>" style="width: 150px; height:150px;">
+                    <img src="../<?php echo $wishproducts_data["path"]?>" style="width: 150px; height:150px;">
                     <br>
 
                   </div>
@@ -65,6 +65,6 @@
     
    
 
-    <script src="script.js"></script>
+    <script src="../app/script.js"></script>
   </body>
 </html>

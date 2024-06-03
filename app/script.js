@@ -977,7 +977,7 @@ function removewish() {
 
         }
     }
-    r.open("POST", "removewishprocess.php", true);
+    r.open("POST", "../app/removewishprocess.php", true);
     r.send(f);
 
 }
@@ -1035,9 +1035,93 @@ function wishlisthome(id) {
         }
     }
 
-    r.open("POST", "wishlisthomeprocess.php", true);
+    r.open("POST", "./app/wishlisthomeprocess.php", true);
     r.send(f);
 }
+
+function wishlisthomeother(id) {
+    var pid = document.getElementById("title") + id;
+
+    var f = new FormData();
+    f.append("pid", pid);
+
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function () {
+        if (r.readyState == 4 && r.status == 200) {
+            var t = r.responseText;
+            if (t == "success") {
+
+
+            } else {
+                alert(t);
+            }
+        }
+    }
+
+    r.open("POST", "../app/wishlisthomeprocess.php", true);
+    r.send(f);
+}
+
+function idel1(invoice_id) {
+    // Create a new FormData object
+    var formData = new FormData();
+    formData.append('id', invoice_id);
+    
+    // Create a new XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+    
+    // Configure it: POST-request to the URL /app/deleteinvoiceprocess.php
+    xhr.open('POST', '../app/deleteinvoiceprocess.php', true);
+    
+    // Set up a function to handle the response
+    xhr.onreadystatechange = function() {
+        // Check if the request is complete
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            // Check if the request was successful
+            if (xhr.status === 200) {
+                // Do something with the response
+                console.log('Response received:', xhr.responseText);
+            } else {
+                console.error('An error occurred:', xhr.statusText);
+            }
+        }
+    };
+    
+    // Send the request with the form data
+    xhr.send(formData);
+}
+
+
+function idel2(id) {
+    // Create a new FormData object
+    var formData = new FormData();
+    formData.append('id', id);
+    
+    // Create a new XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+    
+    // Configure it: POST-request to the URL /app/deleteinvoiceprocess.php
+    xhr.open('POST', '../app/deleteinvoiceprocess.php', true);
+    
+    // Set up a function to handle the response
+    xhr.onreadystatechange = function() {
+        // Check if the request is complete
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            // Check if the request was successful
+            if (xhr.status === 200) {
+                // Do something with the response
+                console.log('Response received:', xhr.responseText);
+            } else {
+                console.error('An error occurred:', xhr.statusText);
+            }
+        }
+    };
+    
+    // Send the request with the form data
+    xhr.send(formData);
+}
+
 function buynow1() {
 
 

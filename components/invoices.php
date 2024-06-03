@@ -2,10 +2,10 @@
 require "connection.php";
 session_start();
 $email = $_SESSION["u"]["email"];
-$invoicesingle_rs = Database::search("SELECT * FROM cashondel_invoice_single_product");
+$invoicesingle_rs = Database::search("SELECT * FROM cashondel_invoice_single_product WHERE `user_email` = '" .$email. "'");
 $invoicesingle_rs_num = $invoicesingle_rs->num_rows;
 
-$invoiceCart_rs = Database::search("SELECT * FROM cashondel_invoice_single_product");
+$invoiceCart_rs = Database::search("SELECT * FROM cashondel_invoice_cart_product WHERE `user_email` = '" .$email. "'");
 $invoicecart_rs_num = $invoiceCart_rs->num_rows;
 
 ?>
@@ -41,10 +41,8 @@ $invoicecart_rs_num = $invoiceCart_rs->num_rows;
       </div>
       <div class="col-4"></div>
       <div class="col-4 text-end">
-
-
         <button class="btn btn-secondary">View Invoice</button>
-        <button class="btn btn-danger" data-invoice-id="<?php echo $invoicesingle_rs_data['invoice_id']; ?>">X</button>
+        <button class="btn btn-danger" onclick="idel1('<?php echo $invoicesingle_rs_data['invoice_id']; ?>')">X</button>
       </div>
     </div>
     <hr>
@@ -59,15 +57,13 @@ $invoicecart_rs_num = $invoiceCart_rs->num_rows;
     <div class="row col-12">
       <div class="col-4">
         <a href="" style="text-decoration: none; color: black;">
-          <h5><b><i>#<span id="inv_id"><?php echo $invoicecart_rs_data['invoice_id']; ?> </span>-> </i></b></h5>
+          <h5><b><i>#<span id="inv_id"><?php echo $invoicecart_rs_data['id']; ?> </span>-> </i></b></h5>
         </a>
       </div>
       <div class="col-4"></div>
       <div class="col-4 text-end">
-
-
         <button class="btn btn-secondary">View Invoice</button>
-        <button class="btn btn-danger" data-invoice-id="<?php echo $invoicecart_rs_data['invoice_id']; ?>">X</button>
+        <button class="btn btn-danger" onclick="idel2('<?php echo $invoicecart_rs_data['id']; ?>')">X</button>
       </div>
     </div>
     <hr>
@@ -76,6 +72,8 @@ $invoicecart_rs_num = $invoiceCart_rs->num_rows;
   ?>
 
 </body>
+
+
 
 <script src="../app/script.js"></script>
 
