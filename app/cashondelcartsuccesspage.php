@@ -178,8 +178,9 @@
                 <br>
             </div>
             <?php
+            
             Database::iud("DELETE FROM cart WHERE user_email = '" . $email . "'");
-            // Database::iud("INSERT INTO cashondel_invoice_cart_product (`id`,`user_email`) VALUE ('" . $randomWord . "','" . $email . "');");
+            Database::iud("INSERT INTO cashondel_invoice_cart_product (`id`,`user_email`) VALUE ('" . $randomWord . "','" . $email . "');");
             ?>
             <div class="row col-12">
                 <div class="col-3"></div>
@@ -197,13 +198,7 @@
             </div>
           
 
-            <!-- <?php
-            $product_id = Database::search("SELECT * FROM product WHERE `title` = '" . $title . "'");
-            $product_id_data = $product_id->fetch_assoc();
-
-            Database::iud("INSERT INTO cashondel_invoice_single_product (`invoice_id`,`product_id`,`user_email`) VALUES ('" . $randomWord . "','" . $product_id_data['id'] . "','" . $email . "')");
-            ?> -->
-
+          
            
         </div>
     </div>
