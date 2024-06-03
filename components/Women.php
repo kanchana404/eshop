@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../style.css">
     <title>Document</title>
+    <style>
+        .cart-icon {
+            color: green;
+        }
+
+        .heart-icon {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <?php
@@ -49,9 +58,12 @@
                             <div class="col-5 text-end">
                                 <div class="row">
                                     <div class="col text-center">
-                                        <button onclick="addtocarthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;"><i class="bi bi-bag"></i></button>
-                                        <button onclick="wishlisthomeother(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;"><i class="bi bi-heart"></i></button>
-                                    </div>
+                                        <button onclick="addtocarthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
+                                            <i class="bi bi-bag cart-icon"></i>
+                                        </button>
+                                        <button onclick="wishlisthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
+                                            <i class="bi bi-heart heart-icon"></i>
+                                        </button>                                    </div>
                                 </div>
                             </div>
                         </div>

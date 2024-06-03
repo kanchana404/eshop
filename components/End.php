@@ -1,5 +1,13 @@
 
+<style>
+        .cart-icon {
+            color: green;
+        }
 
+        .heart-icon {
+            color: red;
+        }
+    </style>
     <div class="mt-5">
     <h1>Trending Products</h1>
 <div class="row text-center" style="margin-top:50px;">
@@ -30,8 +38,12 @@
                             <div class="col-5 text-end">
                                 <div class="row">
                                     <div class="col text-center">
-                                        <button onclick="addtocarthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;"><i class="bi bi-bag"></i></button>
-                                        <button onclick="wishlisthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;"><i class="bi bi-heart"></i></button>
+                                    <button onclick="addtocarthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
+                                            <i class="bi bi-bag cart-icon"></i>
+                                        </button>
+                                        <button onclick="wishlisthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
+                                            <i class="bi bi-heart heart-icon"></i>
+                                        </button>   
                                     </div>
                                 </div>
                             </div>
