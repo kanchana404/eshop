@@ -36,12 +36,12 @@
     <div class="container middle-section">
         <div class="row">
             <div class="col-lg-6 col-sm-12 mt-5">
-                <img src="../public/mada.jpg" alt="banner" class="img-fluid">
+            <h2>We're here to make you happy and comfortable.</h2>
+                    <p>Life is too precious to settle for anything less than pure comfort!</p>
             </div>
             <div class="col-lg-6 col-sm-12 mt-5 text-center">
-                <div class="mt-5">
-                    <h2>We're here to make you happy and comfortable.</h2>
-                    <p>Life is too precious to settle for anything less than pure comfort!</p>
+                <div class="mt-3">
+                   <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam placeat aliquam reprehenderit ratione, laboriosam quam maxime ipsam neque beatae corporis soluta consequatur eum nobis? Magni eius rem veritatis. Assumenda, laudantium.</p>
                 </div>
             </div>
         </div>

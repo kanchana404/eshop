@@ -39,7 +39,7 @@
 <div class="container my-5">
     <div class="row align-items-center">
         <div class="col-lg-6 col-sm-12 mt-5 mt-5-sm">
-            <img src="../public/2222.webp" alt="Banner Image" class="img-fluid">
+            
         </div>
         <div class="col-lg-6 col-sm-12 text-center text-lg-start mt-5-lg mt-5-sm banner-text">
             <h1 class="text-center-sm">Wear Your Story</h1>
