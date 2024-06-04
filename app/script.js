@@ -960,6 +960,7 @@ function buynow44() {
 function removewish() {
 
     var ptitle = document.getElementById("titile").innerText;
+ 
 
     var f = new FormData();
     f.append("ptitle", ptitle);
