@@ -346,6 +346,7 @@ require "../components/connection.php";
               <form action="charge.php" method="post" id="payment-form">
                 <div class="form-row">
                   <input type="hidden" id="amount" name="amount" required>
+                  <input type="hidden" id="delivery_fee" name="delivery_fee" required>
                 </div>
                 <div class="form-row">
                   <label for="card-element">
@@ -443,6 +444,7 @@ require "../components/connection.php";
         var subtotal = delfee + totalgana;
         sub_total.innerText = subtotal;
         document.getElementById("amount").value = subtotal.toFixed(2);
+        document.getElementById("delivery_fee").value = delfee.toFixed(2);
       }
     }
 

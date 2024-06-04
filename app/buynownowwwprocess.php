@@ -285,7 +285,7 @@ require "../components/connection.php";
 
             </div>
             <div class="row">
-              <form action="charge.php" method="post" id="payment-form">
+              <form action="singlecharge.php" method="post" id="payment-form">
                 <div class="form-row">
                   <label for="card-element">
                     Credit or Debit Card
@@ -299,6 +299,9 @@ require "../components/connection.php";
                 <button>Submit Payment</button>
                 <input type="hidden" id="amount" name="amount">
                 <input type="hidden" id="currency" name="currency" value="lkr">
+                <input type="hidden" id="product_id" name="product_id" value="<?php echo $_GET['pid']; ?>">
+                <input type="hidden" id="quantity" name="quantity" value="<?php echo $_GET['qty']; ?>">
+                <input type="hidden" id="delivery_fee" name="delivery_fee" value="<?php echo $provine == '2' ? '500' : '700'; ?>">
               </form>
             </div>
           </div>
