@@ -330,14 +330,14 @@ require "../components/connection.php";
             <div class="row col-12 mb-4">
               <h4><b>Select Payment Method</b></h4>
               <select class="form-select" id="payment-method" onchange="showPaymentSection(this.value)">
-                <option value="" disabled selected>Select Payment Method</option>
-                <option value="cod-section">Cash On Delivery</option>
+                <option value="" disabled>Select Payment Method</option>
+                <option value="cod-section" selected>Cash On Delivery</option>
                 <option value="online-section">Pay Online</option>
               </select>
             </div>
 
             <!-- Cash On Delivery Section -->
-            <div id="cod-section" class="payment-section">
+            <div id="cod-section" class="payment-section active">
               <button class="col-12 btn btn-success mb-3" onclick="buynow22();">Cash On Delivery</button>
             </div>
 
@@ -432,17 +432,17 @@ require "../components/connection.php";
         document.getElementById(sectionId).classList.add('active');
       }
     }
-  </script>
-  <script>
+
+    // Calculate Subtotal
     function calculateSubtotal() {
-      var delfee = parseFloat(document.getElementById("delfee").innerText); // Parse as a number if necessary
-      var totalgana = parseFloat(document.getElementById("totalgana").innerText); // Parse as a number if necessary
+      var delfee = parseFloat(document.getElementById("delfee").innerText);
+      var totalgana = parseFloat(document.getElementById("totalgana").innerText);
       var sub_total = document.getElementById("sub_total");
 
       if (!isNaN(delfee) && !isNaN(totalgana)) {
         var subtotal = delfee + totalgana;
-        sub_total.innerText = subtotal; // Update the sub_total element's text content
-        document.getElementById("amount").value = subtotal.toFixed(2); // Set the amount input field value
+        sub_total.innerText = subtotal;
+        document.getElementById("amount").value = subtotal.toFixed(2);
       }
     }
 
@@ -451,6 +451,11 @@ require "../components/connection.php";
     });
 
     calculateSubtotal();
+
+    // Set default payment method to Cash on Delivery
+    document.addEventListener('DOMContentLoaded', function() {
+      showPaymentSection('cod-section');
+    });
   </script>
   <script src="../app/script.js"></script>
   <!-- End Example Code -->

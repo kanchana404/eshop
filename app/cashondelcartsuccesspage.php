@@ -114,7 +114,7 @@ $delfee = $_GET['delfee'];
 
   <div class="invoice-container">
     <div class="invoice-header text-center">
-      <img src="resources/logo.png" alt="Ameliya Logo">
+      <img src="../public/logo.png" alt="Ameliya Logo">
       <h1>Thank you for your order!</h1>
       <p>Invoice ID: #<?php echo $randomWord ?></p>
       <p>Paid by: Cash on Delivery</p>
