@@ -16,7 +16,7 @@
     <?php
     session_start();
     $email = $_SESSION["u"]["email"];
-    require "../../connection.php";
+    require "../../components/connection.php";
     $city_rs = Database::search("SELECT * FROM `city`");
     $dis_rs = Database::search("SELECT * FROM district");
     $prov_rs = Database::search("SELECT * FROM province");

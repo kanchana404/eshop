@@ -43,7 +43,7 @@
 
     <?php
     session_start();
-    require "../../connection.php";
+    require "../../components/connection.php";
 
     if (isset($_SESSION["u"])) {
       $email = $_SESSION["u"]["email"];
@@ -126,8 +126,8 @@
     </div>
   </div>
 
-  <script src="../../script.js"></script>
-  <?php require "../../footer.php"; ?>
+  <script src="../../app/script.js"></script>
+  
 </body>
 
 </html>

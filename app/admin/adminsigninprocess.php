@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require "../../connection.php";
+require "../../components/connection.php";
 
 $email2 = $_POST["e"];
 $password2 = $_POST["p"];

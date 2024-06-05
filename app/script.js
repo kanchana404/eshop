@@ -261,7 +261,7 @@ function adminsignin() {
         }
     }
 
-    r.open("POST", " adminsigninprocess.php", true);
+    r.open("POST", " ./adminsigninprocess.php", true);
     r.send(f);
 
 }

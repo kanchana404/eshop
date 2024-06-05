@@ -14,7 +14,7 @@
     <?php
     session_start();
     $email = $_SESSION["u"]["email"];
-    require "../../connection.php";
+    require "../../components/connection.php";
 
     $brand_rs = Database::search("SELECT * FROM `brand`");
     $cat_rs = Database::search("SELECT * FROM category");

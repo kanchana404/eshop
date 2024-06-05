@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <?php 
-  $connection = require "../../connection.php";
+  $connection = require "../../components/connection.php";
 
   // Assuming you have fetched the data and stored it in a variable $products
   // You can fetch the data from your database and populate this variable

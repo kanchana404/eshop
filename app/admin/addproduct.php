@@ -62,7 +62,7 @@
       <?php
       session_start();
       $email = $_SESSION["u"]["email"];
-      require "../../connection.php";
+      require "../../components/connection.php";
 
       $brand_rs = Database::search("SELECT * FROM `brand`");
       $cat_rs = Database::search("SELECT * FROM category");
@@ -284,8 +284,7 @@
     </div>
   </div>
 
-  <?php require "../../footer.php" ?>
-  <script src="../../script.js"></script>
+  <script src="../../app/script.js"></script>
 </body>
 
 </html>

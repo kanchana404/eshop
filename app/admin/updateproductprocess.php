@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../../connection.php";
+require "../../components/connection.php";
 
 $title = $_POST["title"];
 $description = $_POST["description"];

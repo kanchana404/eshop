@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../../connection.php";
+require "../../components/connection.php";
 
 if (isset($_SESSION["u"])) {
     $user_email = $_SESSION["u"]["email"];

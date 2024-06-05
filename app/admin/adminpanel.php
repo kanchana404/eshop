@@ -35,7 +35,7 @@
       <br>
       <br>
       <br>
-      <img src="../lp1.png" alt="">
+      <img src="../public/lp1.png" alt="">
     </div>
     <div class="col-lg-6 col-md-12 col-12" style="font-family: 'Dancing Script', cursive;
       font-family: 'Shantell Sans', cursive;">
@@ -88,7 +88,7 @@
   </div>
   <!-- End Example Code -->
 
-<script src="../../script.js"></script>
+<script src="../../app/script.js"></script>
 </body>
 
 </html>
