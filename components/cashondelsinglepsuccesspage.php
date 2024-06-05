@@ -1,10 +1,6 @@
 <?php
 session_start();
 require "connection.php";
-require 'vendor/autoload.php'; // Include PHPMailer via Composer autoload
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 function generateRandomWord() {
     $letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -32,8 +28,9 @@ $delfee = $_GET['delfee'];
 $qqty = $_GET['qqty'];
 $sub_total = $_GET['sub_total'];
 $price = $_GET['price'];
+$order_date = date('Y-m-d H:i:s'); // Current date and time
 
-// Generate the HTML content for the email
+// Generate the HTML content for the invoice
 $invoice_html = "
 <!doctype html>
 <html lang='en'>
@@ -94,7 +91,7 @@ $invoice_html = "
 <body>
   <div class='invoice-container'>
     <div class='invoice-header text-center'>
-      <img src='resources/logo.png' alt='Ameliya Logo'>
+      <img src='../public/logo.png' alt='Ameliya Logo'>
       <h1>Thank you for your order!</h1>
       <p>Invoice ID: #$randomWord</p>
     </div>
@@ -156,35 +153,12 @@ $invoice_html = "
 </body>
 </html>";
 
-// Send email using PHPMailer
-$mail = new PHPMailer(true);
-
-try {
-    // Server settings
-    $mail->isSMTP();
-    $mail->Host = 'smtp.example.com'; // Set the SMTP server to send through
-    $mail->SMTPAuth = true;
-    $mail->Username = 'your-email@example.com'; // SMTP username
-    $mail->Password = 'your-email-password'; // SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = 587;
-
-    // Recipients
-    $mail->setFrom('your-email@example.com', 'Ameliya');
-    $mail->addAddress($email); // Add a recipient
-
-    // Content
-    $mail->isHTML(true);
-    $mail->Subject = 'Your Order Invoice';
-    $mail->Body = $invoice_html;
-
-    $mail->send();
-    echo 'Invoice has been sent to your email.';
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-}
+// Output the invoice HTML (or you could save it to a file, display it on a webpage, etc.)
+echo $invoice_html;
 
 $product_id = Database::search("SELECT * FROM product WHERE `title` = '" . $title . "'");
 $product_id_data = $product_id->fetch_assoc();
-Database::iud("INSERT INTO cashondel_invoice_single_product (`invoice_id`, `product_id`, `user_email`) VALUES ('" . $randomWord . "', '" . $product_id_data['id'] . "', '" . $email . "')");
-?>
+Database::iud("INSERT INTO cashondel_invoice_single_product (`invoice_id`, `product_id`, `user_email`, `price`, `del_fee`, `date`) VALUES ('" . $randomWord . "', '" . $product_id_data['id'] . "', '" . $email . "', '" . $price . "', '" . $delfee . "', '" . $order_date . "')");
+
+
+// Other script for cart products

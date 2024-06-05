@@ -1,7 +1,8 @@
 <?php
-session_start();
 require 'vendor/autoload.php';
 require '../components/connection.php';
+
+session_start();
 
 // Set your secret key. Remember to switch to your live secret key in production.
 // See your keys here: https://dashboard.stripe.com/apikeys
@@ -11,26 +12,12 @@ require '../components/connection.php';
 $token = $_POST['stripeToken'];
 $amount = $_POST['amount'];
 $currency = $_POST['currency'];
-$product_ids = $_POST['product_ids'];
-$quantities = $_POST['quantities'];
+$product_name = $_POST['product_name'];
+$quantity = $_POST['quantity'];
 $delivery_fee = $_POST['delivery_fee'];
+$subtotal = $_POST['subtotal'];
 
-// Collect order details (assuming these are passed via POST, adjust as needed)
-$orderDetails = [];
-$product_id_array = explode(',', $product_ids);
-$quantity_array = explode(',', $quantities);
-
-foreach ($product_id_array as $index => $product_id) {
-    $product_rs = Database::search("SELECT * FROM product WHERE id = " . $product_id);
-    $product_data = $product_rs->fetch_assoc();
-    $orderDetails[] = [
-        'product_id' => $product_id,
-        'product_name' => $product_data['title'],
-        'quantity' => $quantity_array[$index],
-        'price' => $product_data['price']
-    ];
-}
-
+// Create a charge: this will charge the user's card
 try {
     $charge = \Stripe\Charge::create([
         'amount' => $amount * 100, // Amount in cents
@@ -39,16 +26,23 @@ try {
         'source' => $token,
     ]);
 
-    // Store order details in session
-    $_SESSION['order_details'] = $orderDetails;
+    // Store charge details in session
+    $_SESSION['order_details'] = [
+        [
+            'product_name' => $product_name,
+            'quantity' => $quantity,
+            'price' => $subtotal / $quantity // Assuming price per unit is subtotal divided by quantity
+        ]
+    ];
+    $_SESSION['charge_id'] = $charge->id;
     $_SESSION['amount'] = $amount;
     $_SESSION['currency'] = $currency;
     $_SESSION['delivery_fee'] = $delivery_fee;
+    $_SESSION['subtotal'] = $subtotal;
 
-    // Redirect to invoice.php with product_id and delivery_fee
-    header('Location: ../components/siglestripeinvoice.php');
-    exit();
+    // Redirect to siglestripeinvoice.php
+    header('Location: ./siglestripeinvoice.php');
+    exit;
 } catch (\Stripe\Exception\CardException $e) {
     echo 'Error: ' . $e->getMessage();
 }
-?>

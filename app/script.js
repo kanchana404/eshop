@@ -1065,62 +1065,54 @@ function wishlisthomeother(id) {
 }
 
 function idel1(invoice_id) {
-    // Create a new FormData object
-    var formData = new FormData();
-    formData.append('id', invoice_id);
-    
-    // Create a new XMLHttpRequest object
-    var xhr = new XMLHttpRequest();
-    
-    // Configure it: POST-request to the URL /app/deleteinvoiceprocess.php
-    xhr.open('POST', '../app/deleteinvoiceprocess.php', true);
-    
-    // Set up a function to handle the response
-    xhr.onreadystatechange = function() {
-        // Check if the request is complete
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            // Check if the request was successful
-            if (xhr.status === 200) {
-                // Do something with the response
-                console.log('Response received:', xhr.responseText);
-            } else {
-                console.error('An error occurred:', xhr.statusText);
-            }
-        }
-    };
-    
-    // Send the request with the form data
-    xhr.send(formData);
+   var invoice_id = invoice_id;
+
+   var f = new FormData();
+   f.append("invoice_id", invoice_id);
+
+
+   var r = new XMLHttpRequest();
+
+   r.onreadystatechange = function () {
+       if (r.readyState == 4 && r.status == 200) {
+           var t = r.responseText;
+           if (t == "success") {
+               location.reload();
+           } else {
+               alert(t);
+           }
+
+       }
+   }
+   r.open("POST", "../app/deleteinvoiceprocess.php", true);
+   r.send(f);
 }
 
 
-function idel2(id) {
-    // Create a new FormData object
-    var formData = new FormData();
-    formData.append('id', id);
-    
-    // Create a new XMLHttpRequest object
-    var xhr = new XMLHttpRequest();
-    
-    // Configure it: POST-request to the URL /app/deleteinvoiceprocess.php
-    xhr.open('POST', '../app/deleteinvoiceprocess.php', true);
-    
-    // Set up a function to handle the response
-    xhr.onreadystatechange = function() {
-        // Check if the request is complete
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            // Check if the request was successful
-            if (xhr.status === 200) {
-                // Do something with the response
-                console.log('Response received:', xhr.responseText);
-            } else {
-                console.error('An error occurred:', xhr.statusText);
-            }
-        }
-    };
-    
-    // Send the request with the form data
-    xhr.send(formData);
+
+
+function idel2(invoice_id) {
+    var invoice_id = invoice_id;
+
+   var f = new FormData();
+   f.append("invoice_id", invoice_id);
+
+
+   var r = new XMLHttpRequest();
+
+   r.onreadystatechange = function () {
+       if (r.readyState == 4 && r.status == 200) {
+           var t = r.responseText;
+           if (t == "success") {
+               location.reload();
+           } else {
+               alert(t);
+           }
+
+       }
+   }
+   r.open("POST", "../app/deleteinvoicecartprocess.php", true);
+   r.send(f);
 }
 
 function buynow1() {

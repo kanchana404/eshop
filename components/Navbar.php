@@ -28,7 +28,7 @@ if (isset($_COOKIE["password"])) {
   <nav class="navbar navbar-expand-lg navbar-light ">
     <div class="container-fluid">
       <a class="navbar-brand" href="../index.php">
-        <img src="../public/logo.png" alt="Logo" style="height: 40px;">
+        <h2>Ameliya</h2>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

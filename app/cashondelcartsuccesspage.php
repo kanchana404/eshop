@@ -30,15 +30,16 @@ $user_details = Database::search("SELECT * FROM `user` INNER JOIN full_address O
 $user_details_data = $user_details->fetch_assoc();
 
 $delfee = $_GET['delfee'];
+$order_date = date('Y-m-d H:i:s'); // Current date and time
 ?>
 
 <!doctype html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet'>
   <title>Invoice - Ameliya</title>
   <style>
     body {
@@ -165,7 +166,8 @@ $delfee = $_GET['delfee'];
             for ($x = 0; $x < $cart_details_num; $x++) {
               $cart_details_data = $cart_details->fetch_assoc();
               echo "<tr>
-                      <td>" . htmlspecialchars($cart_details_data["title"]) . " X " . htmlspecialchars($cart_details_data["cqty"]) . "</td>
+                      <td>" . htmlspecialchars($cart_details_data["title"]) . "</td>
+                      <td>" . htmlspecialchars($cart_details_data["cqty"]) . "</td>
                       <td>Rs. " . htmlspecialchars($cart_details_data["price"]) . "</td>
                       <td>Rs. " . htmlspecialchars($cart_details_data["full_price"]) . "</td>
                     </tr>";
@@ -178,15 +180,15 @@ $delfee = $_GET['delfee'];
             $full_price_data = $full_price->fetch_assoc();
             ?>
             <tr class="total-row">
-              <td colspan="2" class="text-end">Total for all Items</td>
+              <td colspan="3" class="text-end">Total for all Items</td>
               <td>Rs. <span id="totalgana"><?php echo htmlspecialchars($full_price_data["total_full_price"]) ?></span></td>
             </tr>
             <tr class="total-row">
-              <td colspan="2" class="text-end">Delivery Fee</td>
+              <td colspan="3" class="text-end">Delivery Fee</td>
               <td>Rs. <span id="delfee"><?php echo htmlspecialchars($delfee) ?></span></td>
             </tr>
             <tr class="total-row">
-              <td colspan="2" class="text-end">Sub Total</td>
+              <td colspan="3" class="text-end">Sub Total</td>
               <td>Rs. <span id="sub_total"><?php echo htmlspecialchars($full_price_data["total_full_price"] + $delfee) ?></span></td>
             </tr>
           </tfoot>
@@ -202,7 +204,7 @@ $delfee = $_GET['delfee'];
 
   <?php
   Database::iud("DELETE FROM cart WHERE user_email = '" . $email . "'");
-  Database::iud("INSERT INTO cashondel_invoice_cart_product (`id`, `user_email`) VALUES ('" . $randomWord . "', '" . $email . "')");
+  Database::iud("INSERT INTO cashondel_invoice_cart_product (`invoice_id`, `user_email`, `del_fee`, `price`, `date`) VALUES ('" . $randomWord . "', '" . $email . "', '" . $delfee . "', '" . $full_price_data["total_full_price"] + $delfee . "', '" . $order_date . "')");
   ?>
 </body>
 

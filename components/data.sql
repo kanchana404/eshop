@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   CONSTRAINT `fk_admin_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table vivaaluth.admin: ~0 rows (approximately)
+-- Dumping data for table vivaaluth.admin: ~1 rows (approximately)
 INSERT INTO `admin` (`fname`, `lname`, `email`, `password`, `product_id`) VALUES
 	('kk', 'kk', 'kavithakgb2003@gmail.com', 'Kavitha@#2003', 0);
 
@@ -40,12 +40,13 @@ CREATE TABLE IF NOT EXISTS `brand` (
   `b_id` int NOT NULL AUTO_INCREMENT,
   `b_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`b_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table vivaaluth.brand: ~2 rows (approximately)
+-- Dumping data for table vivaaluth.brand: ~3 rows (approximately)
 INSERT INTO `brand` (`b_id`, `b_name`) VALUES
 	(4, 'Moose'),
-	(5, 'Adidas');
+	(5, 'Adidas'),
+	(6, 'Lacoste');
 
 -- Dumping structure for table vivaaluth.brand_has_category
 CREATE TABLE IF NOT EXISTS `brand_has_category` (
@@ -72,9 +73,12 @@ CREATE TABLE IF NOT EXISTS `cart` (
   KEY `fk_cart_user1_idx` (`user_email`),
   CONSTRAINT `fk_cart_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `fk_cart_user1` FOREIGN KEY (`user_email`) REFERENCES `user` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table vivaaluth.cart: ~1 rows (approximately)
+-- Dumping data for table vivaaluth.cart: ~2 rows (approximately)
+INSERT INTO `cart` (`id`, `cqty`, `product_id`, `user_email`) VALUES
+	(58, '2', 16, 'mrjester2003@gmail.com'),
+	(59, '1', 15, 'mrjester2003@gmail.com');
 
 -- Dumping structure for table vivaaluth.cashondel_invoice_cart_product
 CREATE TABLE IF NOT EXISTS `cashondel_invoice_cart_product` (
@@ -85,7 +89,12 @@ CREATE TABLE IF NOT EXISTS `cashondel_invoice_cart_product` (
   CONSTRAINT `fk_cashondel_invoice_cart_product_user1` FOREIGN KEY (`user_email`) REFERENCES `user` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table vivaaluth.cashondel_invoice_cart_product: ~0 rows (approximately)
+-- Dumping data for table vivaaluth.cashondel_invoice_cart_product: ~4 rows (approximately)
+INSERT INTO `cashondel_invoice_cart_product` (`id`, `user_email`) VALUES
+	('1w303fmq', 'kavithakgb2003@gmail.com'),
+	('258gp3mc', 'kavithakgb2003@gmail.com'),
+	('2ll717pu', 'kavithakgb2003@gmail.com'),
+	('w7k4m2d9', 'kavithakgb2003@gmail.com');
 
 -- Dumping structure for table vivaaluth.cashondel_invoice_single_product
 CREATE TABLE IF NOT EXISTS `cashondel_invoice_single_product` (
@@ -99,16 +108,14 @@ CREATE TABLE IF NOT EXISTS `cashondel_invoice_single_product` (
   CONSTRAINT `fk_cashondel_invoice_single_product_user1` FOREIGN KEY (`user_email`) REFERENCES `user` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table vivaaluth.cashondel_invoice_single_product: ~1 rows (approximately)
-INSERT INTO `cashondel_invoice_single_product` (`invoice_id`, `product_id`, `user_email`) VALUES
-	('5j46swv3', 5, 'kavithakgb2003@gmail.com');
+-- Dumping data for table vivaaluth.cashondel_invoice_single_product: ~0 rows (approximately)
 
 -- Dumping structure for table vivaaluth.category
 CREATE TABLE IF NOT EXISTS `category` (
   `c_id` int NOT NULL AUTO_INCREMENT,
   `c_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table vivaaluth.category: ~2 rows (approximately)
 INSERT INTO `category` (`c_id`, `c_name`) VALUES
@@ -177,8 +184,9 @@ CREATE TABLE IF NOT EXISTS `full_address` (
   CONSTRAINT `fk_full_address_user1` FOREIGN KEY (`user_email`) REFERENCES `user` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table vivaaluth.full_address: ~1 rows (approximately)
+-- Dumping data for table vivaaluth.full_address: ~2 rows (approximately)
 INSERT INTO `full_address` (`id`, `line1`, `line2`, `city_id`, `user_email`, `district_id`, `province_id`) VALUES
+	(1, 'awfas ff sfs fd', 'eg rfhgdf hdfhg', 2, 'mrjester2003@gmail.com', 2, 2),
 	(4, '868 Deercove Drive', 'wwww', 1, 'kavithakgb2003@gmail.com', 2, 1);
 
 -- Dumping structure for table vivaaluth.gender
@@ -238,10 +246,10 @@ CREATE TABLE IF NOT EXISTS `product` (
 
 -- Dumping data for table vivaaluth.product: ~17 rows (approximately)
 INSERT INTO `product` (`id`, `price`, `qty`, `discription`, `title`, `aded_date`, `del_fee_col`, `del_fee_other`, `color_clr_id`, `category_c_id`, `brand_b_id`, `status_s_id`) VALUES
-	(1, '1000', '10', 'Girl\'s Hoodie', 'Girl\'s Hoodie', '2024-05-30', 500, 700, 4, 4, 4, 1),
+	(1, '1000', '10', 'Girl\'s Hoodie', 'Girls Hoodie', '2024-05-30', 500, 700, 4, 4, 4, 1),
 	(2, '1500', '10', 'Top opened Girl\'s Hoodie', 'Top opened Girl\'s Hoodie', '2024-05-30', 500, 700, 4, 4, 5, 1),
 	(3, '1200', '10', 'Top', 'Girl\'s Top', '2024-05-30', 500, 700, 4, 4, 5, 1),
-	(4, '1000', '10', 'Top', 'Girls\' Blows', '2024-05-30', 500, 700, 4, 4, 4, 1),
+	(4, '1000', '10', 'Top', 'Girls Blows', '2024-05-30', 500, 700, 4, 4, 4, 1),
 	(5, '1000', '4', 'chuti kalismak ane', 'Chuti kalisama', '2024-05-30', 500, 700, 4, 4, 4, 1),
 	(6, '1000', '5', 'mokuth na adan duwannth puluwn echcharai', 'kellage chuti kalisama', '2024-05-30', 500, 700, 4, 4, 4, 1),
 	(7, '1200', '50', 'nana kalisamak hlow', 'jundi kalisama', '2024-05-30', 500, 700, 4, 4, 4, 1),
@@ -249,7 +257,7 @@ INSERT INTO `product` (`id`, `price`, `qty`, `discription`, `title`, `aded_date`
 	(9, '1350', '11', 'Halalooya kalisama', 'Halalooya', '2024-05-30', 500, 700, 5, 4, 4, 1),
 	(10, '3000', '10', 'Full kit for girl\'s', 'Full kit for girl\'s', '2024-05-30', 500, 700, 4, 4, 4, 1),
 	(11, '3400', '10', 'Girl Full kit', 'Girl Full kit', '2024-05-30', 500, 700, 4, 4, 5, 1),
-	(12, '1300', '10', 'Hoodie for boys', 'Boy\'s Hoodie', '2024-05-30', 500, 700, 4, 3, 5, 1),
+	(12, '1300', '10', 'Hoodie for boys', 'Boys Hoodie', '2024-05-30', 500, 700, 4, 3, 5, 1),
 	(13, '1500', '10', 'Jean Grey', 'Jean Grey', '2024-05-30', 500, 700, 4, 3, 5, 1),
 	(14, '1500', '10', 'Lite Black Jean', 'Lite Black Jean', '2024-05-30', 500, 700, 4, 3, 4, 1),
 	(15, '1400', '10', 'Jean for boy', 'Jean for boy', '2024-05-30', 500, 700, 4, 3, 5, 1),
@@ -361,6 +369,23 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`fname`, `lname`, `email`, `password`, `mobile`, `status`, `gender_id`, `joined_date`) VALUES
 	('Kavitha', 'Kanchana', 'kavithakgb2003@gmail.com', 'Kavitha@#2003', '0716538198', 1, 1, NULL),
 	('Kavitha', 'Kanchana', 'mrjester2003@gmail.com', 'Kavitha@#2003', '0702011540', 1, 1, NULL);
+
+-- Dumping structure for table vivaaluth.wishlist
+CREATE TABLE IF NOT EXISTS `wishlist` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
+  `user_email` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_wishlist_product1_idx` (`product_id`),
+  KEY `fk_wishlist_user1_idx` (`user_email`),
+  CONSTRAINT `fk_wishlist_product1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  CONSTRAINT `fk_wishlist_user1` FOREIGN KEY (`user_email`) REFERENCES `user` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+
+-- Dumping data for table vivaaluth.wishlist: ~2 rows (approximately)
+INSERT INTO `wishlist` (`id`, `product_id`, `user_email`) VALUES
+	(6, 10, 'kavithakgb2003@gmail.com'),
+	(7, 17, 'kavithakgb2003@gmail.com');
 
 -- Dumping structure for table vivaaluth.women
 CREATE TABLE IF NOT EXISTS `women` (

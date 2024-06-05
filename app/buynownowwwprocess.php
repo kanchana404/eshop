@@ -15,15 +15,9 @@ require "../components/connection.php";
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <style>
-    /* Add some basic styling */
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
-    }
-
-    form {
-      max-width: 500px;
-      margin: auto;
     }
 
     .form-row {
@@ -63,19 +57,14 @@ require "../components/connection.php";
       background-color: #5469d4;
     }
 
-    /* Improved styling for the Stripe card input */
     .StripeElement {
       box-sizing: border-box;
-
       height: 40px;
-
       padding: 10px 12px;
-
       border: 1px solid transparent;
       border-radius: 4px;
       background-color: white;
       box-shadow: 0 1px 3px 0 #e6ebf1;
-      -webkit-transition: box-shadow 150ms ease;
       transition: box-shadow 150ms ease;
     }
 
@@ -89,6 +78,29 @@ require "../components/connection.php";
 
     .StripeElement--webkit-autofill {
       background-color: #fefde5 !important;
+    }
+
+    .payment-method {
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .payment-method:hover {
+      transform: scale(1.05);
+    }
+
+    .payment-section {
+      display: none;
+    }
+
+    .active {
+      display: block !important;
+    }
+
+    @media (max-width: 768px) {
+      .col-6 {
+        margin-bottom: 20px;
+      }
     }
   </style>
 </head>
@@ -278,13 +290,23 @@ require "../components/connection.php";
             <br>
             <br>
             <br>
-            <div class="row">
-              <div class="col-12">
-                <button class="col-12 btn btn-success" onclick="buynow2();">Cash On Delivery</button>
-              </div>
-
+            <!-- Payment Method Selection -->
+            <div class="row col-12 mb-4">
+              <h4><b>Select Payment Method</b></h4>
+              <select class="form-select" id="payment-method" onchange="showPaymentSection(this.value)">
+                <option value="" disabled>Select Payment Method</option>
+                <option value="cod-section" selected>Cash On Delivery</option>
+                <option value="online-section">Pay Online</option>
+              </select>
             </div>
-            <div class="row">
+
+            <!-- Cash On Delivery Section -->
+            <div id="cod-section" class="payment-section active">
+              <button class="col-12 btn btn-success mb-3" onclick="buynow2();">Cash On Delivery</button>
+            </div>
+
+            <!-- Pay Online Section -->
+            <div id="online-section" class="payment-section">
               <form action="singlecharge.php" method="post" id="payment-form">
                 <div class="form-row">
                   <label for="card-element">
@@ -300,8 +322,10 @@ require "../components/connection.php";
                 <input type="hidden" id="amount" name="amount">
                 <input type="hidden" id="currency" name="currency" value="lkr">
                 <input type="hidden" id="product_id" name="product_id" value="<?php echo $_GET['pid']; ?>">
+                <input type="hidden" id="product_name" name="product_name" value="<?php echo $pcart_data['title']; ?>">
                 <input type="hidden" id="quantity" name="quantity" value="<?php echo $_GET['qty']; ?>">
                 <input type="hidden" id="delivery_fee" name="delivery_fee" value="<?php echo $provine == '2' ? '500' : '700'; ?>">
+                <input type="hidden" id="subtotal" name="subtotal">
               </form>
             </div>
           </div>
@@ -364,8 +388,16 @@ require "../components/connection.php";
       form.appendChild(hiddenInput);
       form.submit();
     }
-  </script>
-  <script>
+
+    function showPaymentSection(sectionId) {
+      document.querySelectorAll('.payment-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      if (sectionId) {
+        document.getElementById(sectionId).classList.add('active');
+      }
+    }
+
     var delfee = parseFloat(document.getElementById("delfee").innerText); // Parse as a number if necessary
     var totalgana = parseFloat(document.getElementById("totalgana").innerText); // Parse as a number if necessary
     var sub_total = document.getElementById("sub_total");
@@ -374,12 +406,17 @@ require "../components/connection.php";
       var subtotal = delfee + totalgana;
       sub_total.innerText = subtotal; // Update the sub_total element's text content
       document.getElementById('amount').value = subtotal; // Set the amount for the payment form
+      document.getElementById('subtotal').value = subtotal; // Set the subtotal for the payment form
     }
     <?php
     } else {
       echo "alert('Please Login First');";
     }
     ?>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      showPaymentSection('cod-section');
+    });
   </script>
   <script src="script.js"></script>
   <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>

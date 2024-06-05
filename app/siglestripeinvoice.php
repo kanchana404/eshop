@@ -1,7 +1,8 @@
 <?php
 session_start();
-require "../components/connection.php";
-if (!isset($_SESSION['order_details'])) {
+require '../components/connection.php';
+
+if (!isset($_SESSION['order_details']) || !isset($_SESSION['amount']) || !isset($_SESSION['delivery_fee']) || !isset($_SESSION['subtotal'])) {
     echo "No order details found.";
     exit();
 }
@@ -9,12 +10,8 @@ if (!isset($_SESSION['order_details'])) {
 $orderDetails = $_SESSION['order_details'];
 $amount = $_SESSION['amount'];
 $currency = $_SESSION['currency'];
-$product_id = $_GET['product_id'];
-$delivery_fee = $_GET['delivery_fee'];
-
-$sproduct_rs = Database::search("SELECT * FROM product WHERE `title` = '" . $product_id . "';");
-$sproduct_num = $sproduct_rs->num_rows;
-$sproduct_data = $sproduct_rs->fetch_assoc();
+$delivery_fee = $_SESSION['delivery_fee'];
+$subtotal = $_SESSION['subtotal'];
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +89,7 @@ $sproduct_data = $sproduct_rs->fetch_assoc();
             <img src="../public/logo.png" alt="Company Logo">
             <h1>Thank you for your order!</h1>
             <p>Invoice ID: <?php echo uniqid('INV'); ?></p>
-            <p>Paid by: Cash on Delivery</p>
+            <p>Paid by: Credit Card</p>
         </div>
         <div class="details">
             <h2>Delivery Details</h2>
@@ -120,17 +117,19 @@ $sproduct_data = $sproduct_rs->fetch_assoc();
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><?php echo $sproduct_data["title"]; ?></td>
-                    <td><?php echo $orderDetails['quantity']; ?></td>
-                    <td>Rs. <?php echo number_format($sproduct_data["price"], 2); ?></td>
-                    <td>Rs. <?php echo number_format($orderDetails['quantity'] * $sproduct_data["price"], 2); ?></td>
-                </tr>
+                <?php foreach ($orderDetails as $item) { ?>
+                    <tr>
+                        <td><?php echo $item["product_name"]; ?></td>
+                        <td><?php echo $item["quantity"]; ?></td>
+                        <td>Rs. <?php echo number_format($item["price"], 2); ?></td>
+                        <td>Rs. <?php echo number_format($item["quantity"] * $item["price"], 2); ?></td>
+                    </tr>
+                <?php } ?>
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="3" class="total">Total for all Items</td>
-                    <td>Rs. <?php echo number_format($amount, 2); ?></td>
+                    <td>Rs. <?php echo number_format($subtotal, 2); ?></td>
                 </tr>
                 <tr>
                     <td colspan="3" class="total">Delivery Fee</td>
@@ -138,16 +137,14 @@ $sproduct_data = $sproduct_rs->fetch_assoc();
                 </tr>
                 <tr>
                     <td colspan="3" class="total"><strong>Sub Total</strong></td>
-                    <td><strong>Rs. <?php echo number_format($amount + $delivery_fee, 2); ?></strong></td>
+                    <td><strong>Rs. <?php echo number_format($amount, 2); ?></strong></td>
                 </tr>
             </tfoot>
         </table>
         <div class="footer">
-        <button onclick="window.print()" class="btn btn-primary">Print Invoice</button>
+            <button onclick="window.print()" class="btn btn-print">Print Invoice</button>
             <a href="../index.php" class="btn btn-home">Home</a>
         </div>
     </div>
 </body>
-
-
 </html>
