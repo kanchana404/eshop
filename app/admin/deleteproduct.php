@@ -214,9 +214,9 @@
 <br>
 <br>
 <hr>
-<?php require "../../footer.php"?>
+
     
-      <script src="../../script.js"></script>
+      <script src="../../app/script.js"></script>
     <!-- End Example Code -->
   </body>
 </html>

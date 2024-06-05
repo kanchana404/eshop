@@ -1,34 +1,74 @@
 <!doctype html>
 <html lang="en">
-  <?php 
-  $connection = require "../../components/connection.php";
 
-  // Assuming you have fetched the data and stored it in a variable $products
-  // You can fetch the data from your database and populate this variable
-  $query = "SELECT * FROM product";
-  $result = mysqli_query($connection, $query);
-  $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  ?>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <title>Product List</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </head>
-  <body class="p-3 m-0 border-0 bd-example m-0 border-0 bd-example-row bd-example-row-flex-cols">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Admin - Product List</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
 
-    <!-- Example Code -->
+    h1 {
+      color: #2761e7;
+      margin-bottom: 20px;
+    }
+
+    .table-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .table th,
+    .table td {
+      vertical-align: middle;
+    }
+
+    .table thead {
+      background-color: #2761e7;
+      color: white;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .btn-print {
+      background-color: #2761e7;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .btn-print:hover {
+      background-color: #1a4fbb;
+    }
+  </style>
+  <script>
+    function printPage() {
+      window.print();
+    }
+  </script>
+</head>
+
+<body>
+
+  <div class="container mt-4">
     <div class="col-12 text-center">
-      <h1>See your all products in here</h1>
-      <br>
+      <h1 class="mb-4"><b>Product List</b></h1>
+      <button class="btn-print" onclick="printPage()">Print</button>
     </div>
-    <hr>
 
-    <!-- Table to display product data -->
-    <div class="container">
-      <table class="table">
+    <div class="table-container">
+      <table class="table table-striped table-hover">
         <thead>
           <tr>
             <th>ID</th>
@@ -36,8 +76,8 @@
             <th>Description</th>
             <th>Price</th>
             <th>Quantity</th>
-            <th>Delivery Fee</th>
-            <th>Other Delivery Fee</th>
+            <th>Delivery Fee (Colombo)</th>
+            <th>Delivery Fee (Other)</th>
             <th>Color ID</th>
             <th>Category ID</th>
             <th>Brand ID</th>
@@ -45,25 +85,36 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($products as $product) { ?>
+          <?php 
+          $connection = require "../../components/connection.php";
+
+          $query = Database::search("SELECT * FROM product");
+          $query_num = $query->num_rows;
+
+          for ($x = 0; $x < $query_num; $x++) {
+            $query_data = $query->fetch_assoc();
+          ?>
             <tr>
-              <td><?php echo $product['id']; ?></td>
-              <td><?php echo $product['title']; ?></td>
-              <td><?php echo $product['description']; ?></td>
-              <td><?php echo $product['price']; ?></td>
-              <td><?php echo $product['qty']; ?></td>
-              <td><?php echo $product['del_fee_col']; ?></td>
-              <td><?php echo $product['del_fee_other']; ?></td>
-              <td><?php echo $product['color_clr_id']; ?></td>
-              <td><?php echo $product['category_c_id']; ?></td>
-              <td><?php echo $product['brand_b_id']; ?></td>
-              <td><?php echo $product['status_s_id']; ?></td>
+              <td><?php echo $query_data['id']; ?></td>
+              <td><?php echo $query_data['title']; ?></td>
+              <td><?php echo $query_data['discription']; ?></td>
+              <td><?php echo $query_data['price']; ?></td>
+              <td><?php echo $query_data['qty']; ?></td>
+              <td><?php echo $query_data['del_fee_col']; ?></td>
+              <td><?php echo $query_data['del_fee_other']; ?></td>
+              <td><?php echo $query_data['color_clr_id']; ?></td>
+              <td><?php echo $query_data['category_c_id']; ?></td>
+              <td><?php echo $query_data['brand_b_id']; ?></td>
+              <td><?php echo $query_data['status_s_id']; ?></td>
             </tr>
-          <?php } ?>
+          <?php
+          }
+          ?>
         </tbody>
       </table>
     </div>
-    <!-- End Table -->
+  </div>
 
-  </body>
+</body>
+
 </html>
