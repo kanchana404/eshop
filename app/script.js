@@ -1040,6 +1040,32 @@ function wishlisthome(id) {
     r.send(f);
 }
 
+
+function wishlisthome2(id) {
+    var pid = document.getElementById("title") + id;
+
+    var f = new FormData();
+    f.append("pid", pid);
+
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function () {
+        if (r.readyState == 4 && r.status == 200) {
+            var t = r.responseText;
+            if (t == "success") {
+
+
+            } else {
+                alert(t);
+            }
+        }
+    }
+
+    r.open("POST", "../app/wishlisthomeprocess.php", true);
+    r.send(f);
+}
+
+
 function wishlisthomeother(id) {
     var pid = document.getElementById("title") + id;
 

@@ -61,7 +61,7 @@
                                         <button onclick="addtocarthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
                                             <i class="bi bi-bag cart-icon"></i>
                                         </button>
-                                        <button onclick="wishlisthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
+                                        <button onclick="wishlisthome2(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
                                             <i class="bi bi-heart heart-icon"></i>
                                         </button>                                    </div>
                                 </div>

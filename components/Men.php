@@ -60,7 +60,7 @@
                                         <button onclick="addtocarthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
                                             <i class="bi bi-bag cart-icon"></i>
                                         </button>
-                                        <button onclick="wishlisthome(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
+                                        <button onclick="wishlisthome2(<?php echo $wpdall_data['id'] ?>);" style="border: none; background:none;">
                                             <i class="bi bi-heart heart-icon"></i>
                                         </button>                          
                                     </div>
@@ -72,7 +72,7 @@
                         </div>
                         <div class="col" style="margin-bottom: 10px;">
                             <div class="row text-center">
-                                                               <a href="<?php echo "./components/singleproductview.php?id=" . ($wpdall_data["product_id"]); ?>" style="color:white; text-decoration:none;"<button type="button" class="btn btn-primary">Buy now</button></a>
+                                                               <a href="<?php echo "./singleproductview.php?id=" . ($wpdall_data["product_id"]); ?>" style="color:white; text-decoration:none;"<button type="button" class="btn btn-primary">Buy now</button></a>
 
                             </div>
                         </div>
