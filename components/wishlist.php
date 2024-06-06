@@ -54,23 +54,31 @@
             $wishproducts = Database::search("SELECT * FROM wishlist INNER JOIN product ON product.id = wishlist.product_id INNER JOIN product_img ON product_img.product_id = product.id WHERE `user_email` = '" .$email. "'");
             $wishproducts_num = $wishproducts->num_rows;
 
-            for ($x=0; $x < $wishproducts_num ; $x++) { 
-              $wishproducts_data = $wishproducts->fetch_assoc();
+            if ($wishproducts_num > 0) {
+              for ($x = 0; $x < $wishproducts_num; $x++) { 
+                $wishproducts_data = $wishproducts->fetch_assoc();
           ?>
-              <div class="wishlist-item row">
-                <div class="col-md-3">
-                  <img src="../<?php echo $wishproducts_data['path']; ?>" class="img-fluid" alt="Product Image">
+                <div class="wishlist-item row">
+                  <div class="col-md-3">
+                    <img src="../<?php echo $wishproducts_data['path']; ?>" class="img-fluid" alt="Product Image">
+                  </div>
+                  <div class="col-md-5 mt-3 mt-md-0 text-start">
+                    <h3><b><?php echo $wishproducts_data['title']; ?></b></h3>
+                    <h6><b>Rs.<?php echo $wishproducts_data['price']; ?>.00</b></h6>
+                  </div>
+                  <div class="col-md-2 mt-3 mt-md-0 text-start">
+                    <h6><b>Available QTY = <?php echo $wishproducts_data['qty']; ?></b></h6>
+                  </div>
+                  <div class="col-md-2 mt-3 mt-md-0 text-end">
+                    <button class="btn btn-danger" onclick="removewish(<?php echo $wishproducts_data['product_id']; ?>);"><i class="bi bi-x"></i></button>
+                  </div>
                 </div>
-                <div class="col-md-5 mt-3 mt-md-0 text-start">
-                  <h3><b><?php echo $wishproducts_data['title']; ?></b></h3>
-                  <h6><b>Rs.<?php echo $wishproducts_data['price']; ?>.00</b></h6>
-                </div>
-                <div class="col-md-2 mt-3 mt-md-0 text-start">
-                  <h6><b>Available QTY = <?php echo $wishproducts_data['qty']; ?></b></h6>
-                </div>
-                <div class="col-md-2 mt-3 mt-md-0 text-end">
-                  <button class="btn btn-danger" onclick="removewish(<?php echo $wishproducts_data['product_id']; ?>);"><i class="bi bi-x"></i></button>
-                </div>
+          <?php
+              }
+            } else {
+          ?>
+              <div class="text-center">
+                <h3>There are no wishlisted products.</h3>
               </div>
           <?php
             }

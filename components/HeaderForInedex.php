@@ -44,7 +44,7 @@
                                     for ($x = 0; $x < $category_num; $x++) {
                                         $category_data = $category->fetch_assoc();
                                     ?>
-                                        <li><a class="dropdown-item" href="#"><?php echo $category_data["c_name"] ?></a></li>
+                                        <li><a class="dropdown-item" href="./components/<?php echo $category_data["c_name"] ?>.php"><?php echo $category_data["c_name"] ?></a></li>
                                        
                                     <?php
                                     }
