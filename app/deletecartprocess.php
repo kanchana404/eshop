@@ -4,7 +4,7 @@ require "../components/connection.php";
 
 if (isset($_SESSION["u"])) {
 
-    $productid = $_POST["delproductidd"];
+    $productid = $_POST["delproductid"];
     
    Database::iud("DELETE FROM cart WHERE `product_id` = '".$productid."'");
     echo "success";

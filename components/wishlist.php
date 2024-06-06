@@ -79,13 +79,8 @@
       </div>
     </div>
 
-    <script>
-      function removewish(productId) {
-        // Your JavaScript function to remove the product from the wishlist
-        // This might involve an AJAX call to a server-side script to handle the removal
-        console.log("Removing product with ID:", productId);
-        // Add your AJAX call here
-      }
-    </script>
+<script src="../app/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   </body>
 </html>

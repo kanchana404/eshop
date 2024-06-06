@@ -2,9 +2,7 @@
 require "../components/connection.php";
 session_start();
 
-
 if (isset($_SESSION["u"])) {
-    
     $title = $_POST["title"];
     $email = $_SESSION["u"]["email"];
 
@@ -21,7 +19,7 @@ if (isset($_SESSION["u"])) {
         $product_data = $product_rs->fetch_assoc();
 
         Database::iud("INSERT INTO cart(`cqty`,`product_id`,`user_email`) VALUES('1','" . $product_data["id"] . "','" . $email . "');");
-        echo ("Product added to the cart.");
+        echo ("success");
     }
 } else {
     echo ("Please log in to continue.");

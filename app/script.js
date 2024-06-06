@@ -740,28 +740,45 @@ function minas1(id) {
 }
 
 function delcart(id) {
-    var delproductid = document.getElementById("delproductid") + id;
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to delete the product from the cart?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var f = new FormData();
+            f.append("delproductid", id);  // Append the product ID directly to FormData
 
-    var f = new FormData();
-    var pid = f.append("delproductidd", delproductid);
+            var r = new XMLHttpRequest();
+            r.onreadystatechange = function () {
+                if (r.readyState == 4 && r.status == 200) {
+                    var t = r.responseText;
 
-
-
-    var r = new XMLHttpRequest();
-    r.onreadystatechange = function () {
-        if (r.readyState == 4 && r.status == 200) {
-            var t = r.responseText;
-
-            if (t == "success") {
-                location.reload();
-            } else {
-                alert(t);
+                    if (t == "success") {
+                        Swal.fire(
+                            'Deleted!',
+                            'The product has been removed from your cart.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            t,
+                            'error'
+                        );
+                    }
+                }
             }
-
+            r.open("POST", "../app/deletecartprocess.php", true);
+            r.send(f);
         }
-    }
-    r.open("POST", "../app/deletecartprocess.php", true);
-    r.send(f);
+    });
 }
 
 
@@ -957,41 +974,53 @@ function buynow44() {
 
 }
 
-function removewish() {
+function removewish(product_id) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to delete the product from the wishlist?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var f = new FormData();
+            f.append("product_id", product_id);
 
-    var ptitle = document.getElementById("titile").innerText;
- 
+            var r = new XMLHttpRequest();
+            r.onreadystatechange = function () {
+                if (r.readyState == 4 && r.status == 200) {
+                    var t = r.responseText;
 
-    var f = new FormData();
-    f.append("ptitle", ptitle);
-
-    var r = new XMLHttpRequest();
-    r.onreadystatechange = function () {
-        if (r.readyState == 4 && r.status == 200) {
-            var t = r.responseText;
-
-            if (t == "success") {
-                location.reload();
-            } else {
-                alert(t);
+                    if (t == "success") {
+                        Swal.fire(
+                            'Deleted!',
+                            'The product has been removed from your wishlist.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            t,
+                            'error'
+                        );
+                    }
+                }
             }
-
+            r.open("POST", "../app/removewishprocess.php", true);
+            r.send(f);
         }
-    }
-    r.open("POST", "../app/removewishprocess.php", true);
-    r.send(f);
-
+    });
 }
 
+
 function addtocarthome(id) {
-
     var title = document.getElementById("title") + id;
-
-
-
-
+    
     var f = new FormData();
-
     f.append("title", title);
 
     var r = new XMLHttpRequest();
@@ -999,25 +1028,28 @@ function addtocarthome(id) {
         if (r.readyState == 4 && r.status == 200) {
             var t = r.responseText;
             if (t == "success") {
-
-                window.location = "../components/cart.php";
+                Swal.fire({
+                    icon: "success",
+                    title: "Product added to the cart",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             } else {
-                alert(t);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: t,
+                });
             }
-
         }
     }
     r.open("POST", "/zzzz/app/addtocarthomeprocess.php", true);
-
     r.send(f);
-
-
-
-
 }
 
+
 function wishlisthome(id) {
-    var pid = document.getElementById("title") + id;
+    var pid = id;
 
     var f = new FormData();
     f.append("pid", pid);
@@ -1027,11 +1059,21 @@ function wishlisthome(id) {
     r.onreadystatechange = function () {
         if (r.readyState == 4 && r.status == 200) {
             var t = r.responseText;
-            if (t == "success") {
-
-
+            if (t === "Product added to wishlist!") {
+                Swal.fire({
+                    icon: "success",
+                    title: t,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    position: "center"
+                });
             } else {
-                alert(t);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: t,
+                    position: "center"
+                });
             }
         }
     }

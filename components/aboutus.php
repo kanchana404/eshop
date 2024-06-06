@@ -20,8 +20,7 @@
         .header {
             text-align: center;
             padding: 50px 0;
-            background-color: #2761e7;
-            color: white;
+            color: #2761e7;
         }
         .header h1 {
             margin: 0;
@@ -46,11 +45,14 @@
         }
         .team-member {
             text-align: center;
+            max-width: 200px;
         }
         .team-member img {
             border-radius: 50%;
             width: 150px;
             height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
         }
         .team-member h3 {
             margin-top: 10px;
@@ -60,21 +62,27 @@
             background-color: white;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
         }
         .contact-form h2 {
             margin-top: 0;
+            font-size: 1.8em;
+            color: #2761e7;
         }
         .contact-form label {
             display: block;
             margin: 15px 0 5px;
+            font-size: 1em;
         }
         .contact-form input, .contact-form textarea {
             width: 100%;
-            padding: 10px;
+            padding: 15px;
             margin: 5px 0 20px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box;
         }
         .contact-form input[type="submit"] {
             background-color: #2761e7;
@@ -84,6 +92,7 @@
             padding: 15px 20px;
             border-radius: 4px;
             font-size: 1em;
+            transition: background-color 0.3s ease;
         }
         .contact-form input[type="submit"]:hover {
             background-color: #164a8c;
@@ -124,19 +133,70 @@
         </div>
         <div class="section contact-form">
             <h2>Contact Us</h2>
-            <form action="/submit_contact_form" method="POST">
+            <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                <!-- Replace with your Access Key -->
+                <input type="hidden" name="access_key" value="44d591f9-91ad-4eec-bdae-f64f5b14dba6">
+
+                <!-- Form Inputs. Each input must have a name="" attribute -->
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
 
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
 
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="4" required></textarea>
+
+                <!-- hCaptcha Spam Protection -->
+                <div class="h-captcha" data-captcha="true"></div>
 
                 <input type="submit" value="Submit">
             </form>
         </div>
     </div>
+    <!-- Required for hCaptcha -->
+    <script src="https://web3forms.com/client/script.js" async defer></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            
+            const form = event.target;
+            
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Email sent. We will contact you soon!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    form.reset(); // Reset the form after successful submission
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                });
+            });
+        });
+    </script>
 </body>
 </html>

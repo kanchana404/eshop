@@ -196,10 +196,10 @@
             </div>
             
             <hr>
-            <script src="../../script.js"></script>
+            <script src="../../app/script.js"></script>
 
 
-<?php require "../../footer.php"?>
+
 </body>
 
 </html>
