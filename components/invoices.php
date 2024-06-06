@@ -1,15 +1,3 @@
-<?php
-require "connection.php";
-session_start();
-$email = $_SESSION["u"]["email"];
-
-$invoicesingle_rs = Database::search("SELECT * FROM cashondel_invoice_single_product WHERE `user_email` = '" . $email . "'");
-$invoicesingle_rs_num = $invoicesingle_rs->num_rows;
-
-$invoiceCart_rs = Database::search("SELECT * FROM cashondel_invoice_cart_product WHERE `user_email` = '" . $email . "'");
-$invoicecart_rs_num = $invoiceCart_rs->num_rows;
-?>
-
 <!doctype html>
 <html lang="en">
 
@@ -18,6 +6,7 @@ $invoicecart_rs_num = $invoiceCart_rs->num_rows;
   <link rel="shortcut icon" type="image/x-icon" href="../public/logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <title>Ameliya - Invoice</title>
   <style>
     body {
@@ -109,7 +98,18 @@ $invoicecart_rs_num = $invoiceCart_rs->num_rows;
       <h1><b>Invoice</b></h1>
     </div>
 
-    <?php if ($invoicesingle_rs_num == 0 && $invoicecart_rs_num == 0) { ?>
+    <?php 
+    session_start();
+    require "connection.php";
+    $email = $_SESSION["u"]["email"];
+
+    $invoicesingle_rs = Database::search("SELECT * FROM cashondel_invoice_single_product WHERE `user_email` = '" . $email . "'");
+    $invoicesingle_rs_num = $invoicesingle_rs->num_rows;
+
+    $invoiceCart_rs = Database::search("SELECT * FROM cashondel_invoice_cart_product WHERE `user_email` = '" . $email . "'");
+    $invoicecart_rs_num = $invoiceCart_rs->num_rows;
+
+    if ($invoicesingle_rs_num == 0 && $invoicecart_rs_num == 0) { ?>
       <div class="no-invoices">
         <h2>There are no invoices</h2>
         <a href="../index.php">Shop in our store</a>
@@ -187,33 +187,66 @@ $invoicecart_rs_num = $invoiceCart_rs->num_rows;
     <?php } ?>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     function deleteSingleInvoice(invoiceId) {
-      if (confirm("Are you sure you want to delete this invoice?")) {
-        $.ajax({
-          url: 'delete_single_invoice.php',
-          type: 'POST',
-          data: { invoice_id: invoiceId },
-          success: function(response) {
-            location.reload();
-          }
-        });
-      }
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: '../app/deleteinvoiceprocess.php',
+            type: 'POST',
+            data: { invoice_id: invoiceId, type: 'single' },
+            success: function(response) {
+              Swal.fire(
+                'Deleted!',
+                'Your invoice has been deleted.',
+                'success'
+              ).then(() => {
+                location.reload();
+              });
+            }
+          });
+        }
+      });
     }
 
     function deleteCartInvoice(invoiceId) {
-      if (confirm("Are you sure you want to delete this invoice?")) {
-        $.ajax({
-          url: 'delete_cart_invoice.php',
-          type: 'POST',
-          data: { invoice_id: invoiceId },
-          success: function(response) {
-            location.reload();
-          }
-        });
-      }
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: '../app/deleteinvoiceprocess.php',
+            type: 'POST',
+            data: { invoice_id: invoiceId, type: 'cart' },
+            success: function(response) {
+              Swal.fire(
+                'Deleted!',
+                'Your invoice has been deleted.',
+                'success'
+              ).then(() => {
+                location.reload();
+              });
+            }
+          });
+        }
+      });
     }
   </script>
 
