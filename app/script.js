@@ -49,101 +49,274 @@ function signin() {
     console.log(email.value);
 
     var f = new FormData();
-    f.append("e", email2.value);
-    f.append("p", password2.value);
+    f.append("e", email.value);
+    f.append("p", password.value);
     f.append("r", rememberme.checked);
 
-
     var r = new XMLHttpRequest();
 
     r.onreadystatechange = function () {
         if (r.readyState == 4 && r.status == 200) {
             var t = r.responseText;
             if (t == "success") {
-                window.location = "../index.php";
-
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Signed in successfully"
+                }).then(() => {
+                    window.location = "../index.php";
+                });
             } else {
                 alert(t);
             }
-
         }
-    }
+    };
 
-    r.open("POST", " ../app/signinprocess.php", true);
+    r.open("POST", "../app/signinprocess.php", true);
     r.send(f);
-
 }
 
+
 function signout() {
+    Swal.fire({
+        title: 'Are you sure you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, log out',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var r = new XMLHttpRequest();
 
-    var r = new XMLHttpRequest();
+            r.onreadystatechange = function () {
+                if (r.readyState == 4 && r.status == 200) {
+                    var t = r.responseText;
 
-    r.onreadystatechange = function () {
-        if (r.readyState == 4 && r.status == 200) {
-            var t = r.responseText;
+                    if (t == "success") {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer);
+                                toast.addEventListener('mouseleave', Swal.resumeTimer);
+                            }
+                        });
+                        Toast.fire({
+                            icon: "success",
+                            title: "Logged out successfully"
+                        }).then(() => {
+                            window.location = "./components/login.php";
+                        });
+                    } else {
+                        alert(t);
+                    }
+                }
+            };
 
-            if (t == "success") {
-
-                // window.location.reload();
-                window.location = "./components/login.php";
-
-            } else {
-                alert(t);
-            }
+            r.open("GET", "./app/signoutProcess.php", true);
+            r.send();
         }
-    }
-
-    r.open("GET", "./app/signoutProcess.php", true);
-    r.send();
-
+    });
 }
 
 function signout321() {
+    Swal.fire({
+        title: 'Are you sure you want to log out?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, log out',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var r = new XMLHttpRequest();
 
-    var r = new XMLHttpRequest();
+            r.onreadystatechange = function () {
+                if (r.readyState == 4 && r.status == 200) {
+                    var t = r.responseText;
 
-    r.onreadystatechange = function () {
-        if (r.readyState == 4 && r.status == 200) {
-            var t = r.responseText;
+                    if (t == "success") {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: "top-end",
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer);
+                                toast.addEventListener('mouseleave', Swal.resumeTimer);
+                            }
+                        });
+                        Toast.fire({
+                            icon: "success",
+                            title: "Logged out successfully"
+                        }).then(() => {
+                            window.location = "./login.php";
+                        });
+                    } else {
+                        alert(t);
+                    }
+                }
+            };
 
-            if (t == "success") {
-
-                // window.location.reload();
-                window.location = "./login.php";
-
-            } else {
-                alert(t);
-            }
+            r.open("GET", "../app/signoutProcess.php", true);
+            r.send();
         }
-    }
-
-    r.open("GET", "../app/signoutProcess.php", true);
-    r.send();
-
+    });
 }
 
-function forgotpassword() {
+function forgotPassword() {
+    Swal.fire({
+        title: 'Enter your email',
+        input: 'email',
+        inputLabel: 'We will send you a verification code',
+        inputValue: document.getElementById('email2').value,
+        inputAttributes: {
+            readonly: true
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Send Verification Code'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var email = result.value;
 
+            // Step 2: Send the verification code to the user's email
+            sendVerificationCode(email).then(() => {
+                // Step 3: Ask for the verification code
+                Swal.fire({
+                    title: 'Enter the verification code',
+                    input: 'text',
+                    inputLabel: 'We have sent a verification code to your email',
+                    inputPlaceholder: 'Enter the verification code',
+                    showCancelButton: true,
+                    confirmButtonText: 'Verify'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var verificationCode = result.value;
 
-    var email = document.getElementById("email3");
+                        // Step 4: Verify the code
+                        verifyCode(email, verificationCode).then((isValid) => {
+                            if (isValid) {
+                                // Step 5: Ask for the new password
+                                Swal.fire({
+                                    title: 'Enter new password',
+                                    html: `<input type="password" id="newPassword" class="swal2-input" placeholder="New password">
+                                           <input type="password" id="confirmPassword" class="swal2-input" placeholder="Confirm new password">`,
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Reset Password',
+                                    preConfirm: () => {
+                                        const newPassword = document.getElementById('newPassword').value;
+                                        const confirmPassword = document.getElementById('confirmPassword').value;
 
-    var r = new XMLHttpRequest();
-
-    r.onreadystatechange = function () {
-        if (r.readyState == 4 & r.status == 200) {
-            var t = r.responseText;
-            if (t == "success") {
-                var m = document.getElementById("forgotpasswordmodel");
-                bm = new bootstrap.Modal(m);
-                bm.show();
-            }
-            alert(t);
+                                        if (newPassword !== confirmPassword) {
+                                            Swal.showValidationMessage('Passwords do not match');
+                                        } else {
+                                            return newPassword;
+                                        }
+                                    }
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        var newPassword = result.value;
+                                        // Step 6: Reset the password
+                                        resetPassword(email, newPassword).then((response) => {
+                                            if (response === "success") {
+                                                Swal.fire(
+                                                    'Success!',
+                                                    'Your password has been reset successfully.',
+                                                    'success'
+                                                );
+                                            } else {
+                                                Swal.fire(
+                                                    'Error!',
+                                                    response,
+                                                    'error'
+                                                );
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    'Invalid verification code.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
         }
-    }
-
-    r.open("GET", "forgotpasswordprocess.php?e=" + email.value, true);
-    r.send();
+    });
 }
+
+function sendVerificationCode(email) {
+    return new Promise((resolve, reject) => {
+        var f = new FormData();
+        f.append("email", email);
+
+        var r = new XMLHttpRequest();
+        r.onreadystatechange = function () {
+            if (r.readyState == 4 && r.status == 200) {
+                resolve();
+            }
+        }
+        r.open("POST", "../app/send-verification-code.php", true);
+        r.send(f);
+    });
+}
+
+function verifyCode(email, code) {
+    return new Promise((resolve, reject) => {
+        var f = new FormData();
+        f.append("email", email);
+        f.append("code", code);
+
+        var r = new XMLHttpRequest();
+        r.onreadystatechange = function () {
+            if (r.readyState == 4 && r.status == 200) {
+                resolve(r.responseText === "valid");
+            }
+        }
+        r.open("POST", "../app/verify-code.php", true);
+        r.send(f);
+    });
+}
+
+function resetPassword(email, newPassword) {
+    return new Promise((resolve, reject) => {
+        var f = new FormData();
+        f.append("email", email);
+        f.append("newPassword", newPassword);
+
+        var r = new XMLHttpRequest();
+        r.onreadystatechange = function () {
+            if (r.readyState == 4 && r.status == 200) {
+                resolve(r.responseText);
+            }
+        }
+        r.open("POST", "../app/reset-password.php", true);
+        r.send(f);
+    });
+}
+
+
 
 function showPassword3() {
     var pw = document.getElementById("pw");
