@@ -11,27 +11,6 @@ if (isset($_SESSION["u"])) {
         // Retrieve delivery fee from the session
         $delivery_fee = isset($_SESSION['delivery_fee']) ? $_SESSION['delivery_fee'] : 0;
         $unique_id = uniqid();
-
-        // Initialize the grand total
-        $grand_total = 0;
-
-        // Calculate the grand total
-        for ($x = 0; $x < $cart_num; $x++) {
-            $cart_data = $cart_rs->fetch_assoc();
-            $subtotal = $cart_data["price"] * $cart_data["cqty"];
-            $grand_total += $subtotal;
-        }
-
-        // Calculate grand total including delivery fee
-        $total_with_delivery = $grand_total + $delivery_fee;
-
-        // Insert data into cashondel_invoice_cart_product table
-        $date = date('Y-m-d H:i:s');
-        Database::iud("INSERT INTO cashondel_invoice_cart_product (invoice_id, user_email, price, del_fee, date) VALUES ('$unique_id', '$email', '$grand_total', '$delivery_fee', '$date')");
-
-        // Insert data into all_orders table using the same unique invoice ID
-        Database::iud("INSERT INTO all_orders (id, user_email, order_status_id) VALUES ('$unique_id', '$email', 1)");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -145,11 +124,11 @@ if (isset($_SESSION["u"])) {
             </thead>
             <tbody>
             <?php
-            // Re-fetch the cart data for displaying in the table
-            $cart_rs = Database::search("SELECT * FROM product INNER JOIN cart ON cart.product_id = product.id INNER JOIN user ON user.email = cart.user_email WHERE user_email = '" . $email . "'");
+            $grand_total = 0;
             for ($x = 0; $x < $cart_num; $x++) {
                 $cart_data = $cart_rs->fetch_assoc();
                 $subtotal = $cart_data["price"] * $cart_data["cqty"];
+                $grand_total += $subtotal;
             ?>
                 <tr>
                     <td><?php echo $cart_data["title"]; ?></td>
@@ -158,7 +137,11 @@ if (isset($_SESSION["u"])) {
                     <td><?php echo number_format($subtotal, 2); ?></td>
                 </tr>
             <?php
+                // Reduce the quantity of the product
+                Database::iud("UPDATE product SET qty = qty - '" . $cart_data["cqty"] . "' WHERE id = '" . $cart_data["product_id"] . "'");
             }
+            // Calculate grand total including delivery fee
+            $total_with_delivery = $grand_total + $delivery_fee;
             ?>
             </tbody>
             <tfoot>

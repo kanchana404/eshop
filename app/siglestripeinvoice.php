@@ -12,22 +12,33 @@ $amount = $_SESSION['amount'];
 $currency = $_SESSION['currency'];
 $delivery_fee = $_SESSION['delivery_fee'];
 $subtotal = $_SESSION['subtotal'];
-$user_email = 'kavithakgb2003@gmail.com'; // Assuming the email is stored in a session or retrieved from the database
-$unique_id = substr(uniqid('INV'), 0, 20); // Shorten the unique ID to fit the database column
-$date = date('Y-m-d H:i:s');
+
+$item = $orderDetails[0];
+$pidResult = Database::search("SELECT id, qty FROM product WHERE title = '" . $item["product_name"] . "'");
+$productData = $pidResult->fetch_assoc();
+$pid = $productData['id'] ?? 'Not found';
+$currentQty = $productData['qty'] ?? 0;
+
+if ($pid === 'Not found' || $currentQty === 0) {
+    echo "Product not found or out of stock.";
+    exit();
+}
+
+// Generate a unique invoice ID
+$invoice_id = uniqid('#');
+
+// Get user email from delivery details
+$user_email = "kavithakgb2003@gmail.com"; // Assuming the email is stored like this, change as per your requirement
 
 // Insert data into cashondel_invoice_single_product table
-foreach ($orderDetails as $item) {
-    if (!isset($item['product_id'])) {
-        echo "Product ID is missing for one or more items.";
-        exit();
-    }
-    $product_id = $item['product_id'];
-    $price = $item['quantity'] * $item['price'];
+$query = "INSERT INTO cashondel_invoice_single_product (invoice_id, product_id, user_email, price, del_fee, date)
+          VALUES ('$invoice_id', '$pid', '$user_email', '$amount', '$delivery_fee', NOW())";
 
-    $insert_query = "INSERT INTO cashondel_invoice_single_product (invoice_id, product_id, user_email, price, del_fee, date) VALUES ('$unique_id', '$product_id', '$user_email', '$price', '$delivery_fee', '$date')";
-    Database::iud($insert_query);
-}
+Database::iud($query);
+
+// Update the quantity in the product table
+$newQty = $currentQty - $item["quantity"];
+Database::iud("UPDATE product SET qty = '$newQty' WHERE id = '$pid'");
 ?>
 
 <!DOCTYPE html>
@@ -104,7 +115,7 @@ foreach ($orderDetails as $item) {
         <div class="header">
             <img src="../public/logo.png" alt="Company Logo">
             <h1>Thank you for your order!</h1>
-            <p>Invoice ID: <?php echo $unique_id; ?></p>
+            <p>Invoice ID: <?php echo $invoice_id; ?></p>
             <p>Paid by: Credit Card</p>
         </div>
         <div class="details">
@@ -113,7 +124,7 @@ foreach ($orderDetails as $item) {
             <p><strong>City:</strong> Nawalapitiya</p>
             <p><strong>District:</strong> Colombo</p>
             <p><strong>Province:</strong> Central</p>
-            <p><strong>Email:</strong> kavithakgb2003@gmail.com</p>
+            <p><strong>Email:</strong> <?php echo $user_email; ?></p>
         </div>
         <div class="company-details">
             <h2>Company Details</h2>
@@ -133,14 +144,12 @@ foreach ($orderDetails as $item) {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($orderDetails as $item) { ?>
-                    <tr>
-                        <td><?php echo $item["product_name"]; ?></td>
-                        <td><?php echo $item["quantity"]; ?></td>
-                        <td>Rs. <?php echo number_format($item["price"], 2); ?></td>
-                        <td>Rs. <?php echo number_format($item["quantity"] * $item["price"], 2); ?></td>
-                    </tr>
-                <?php } ?>
+                <tr>
+                    <td><?php echo $item["product_name"]; ?></td>
+                    <td><?php echo $item["quantity"]; ?></td>
+                    <td>Rs. <?php echo number_format($item["price"], 2); ?></td>
+                    <td>Rs. <?php echo number_format($item["quantity"] * $item["price"], 2); ?></td>
+                </tr>
             </tbody>
             <tfoot>
                 <tr>

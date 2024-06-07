@@ -13,8 +13,6 @@
   require"../../components/connection.php"
   ?>
 
-
-
 <section id="orders" class="container mt-4">
   <style>
     #orders {
@@ -72,12 +70,12 @@
       border-radius: .25rem;
     }
 
-    .bg-yellow {
-      background-color: #ffc107 !important;
-    }
-
     .bg-blue {
       background-color: #0d6efd !important;
+    }
+
+    .bg-yellow {
+      background-color: #ffc107 !important;
     }
 
     .bg-green {
@@ -167,13 +165,13 @@
       });
 
       function setStatusColor(select) {
-        select.classList.remove('bg-yellow', 'bg-blue', 'bg-green');
+        select.classList.remove('bg-blue', 'bg-yellow', 'bg-green');
         const statusId = select.value;
 
         if (statusId == 1) {
-          select.classList.add('bg-yellow'); // Order Placed
+          select.classList.add('bg-blue'); // Order Placed
         } else if (statusId == 2) {
-          select.classList.add('bg-blue'); // Processing
+          select.classList.add('bg-yellow'); // Processing
         } else if (statusId == 3) {
           select.classList.add('bg-green'); // Delivered
         }
@@ -201,7 +199,6 @@
     });
   </script>
 </section>
-
 
   </body>
 </html>

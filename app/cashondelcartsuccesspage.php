@@ -212,6 +212,16 @@ $order_date = date('Y-m-d H:i:s'); // Current date and time
     // Insert into all_orders table
     Database::iud("INSERT INTO all_orders (`id`, `user_email`, `order_status_id`) VALUES ('" . $randomWord . "', '" . $email . "', '1')");
 
+    // Reduce the purchased qty from the product table
+    $cart_details = Database::search("SELECT product_id, cqty FROM cart WHERE user_email = '" . $email . "'");
+    while ($cart_item = $cart_details->fetch_assoc()) {
+        $product_id = $cart_item['product_id'];
+        $purchased_qty = $cart_item['cqty'];
+        
+        // Update product quantity in the database
+        Database::iud("UPDATE product SET qty = qty - '" . $purchased_qty . "' WHERE id = '" . $product_id . "'");
+    }
+
     // Delete products from cart after checkout
     Database::iud("DELETE FROM cart WHERE user_email = '" . $email . "'");
     ?>

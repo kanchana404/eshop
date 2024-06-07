@@ -160,6 +160,9 @@ $product_id = Database::search("SELECT * FROM product WHERE `title` = '" . $titl
 $product_id_data = $product_id->fetch_assoc();
 Database::iud("INSERT INTO cashondel_invoice_single_product (`invoice_id`, `product_id`, `user_email`, `price`, `del_fee`, `date`) VALUES ('" . $randomWord . "', '" . $product_id_data['id'] . "', '" . $email . "', '" . $price . "', '" . $delfee . "', '" . $order_date . "')");
 
-// Insert into the all_product table
+// Insert into the all_orders table
 Database::iud("INSERT INTO all_orders (`id`, `user_email`, `order_status_id`) VALUES ('" . $randomWord . "', '" . $email . "', '1')");
+
+// Reduce the purchased qty from the product table
+Database::iud("UPDATE product SET qty = qty - '" . $qqty . "' WHERE id = '" . $product_id_data['id'] . "'");
 ?>
