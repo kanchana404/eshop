@@ -69,7 +69,16 @@ require "./adminNav.php"
     $padnqty_num = $padnqty->num_rows;
     ?>
     <div class="row">
-      <div class="col"></div>
+      <div class="col text-center mt-5">
+        <div class="col mt-5">
+          <div class="co mt-5l">
+            <div class="col mt-5">
+            <h1 style="font-size:80px;">Admin Page</h1>
+            </div>
+          </div>
+        </div>
+
+      </div>
       <div class="col">
       <h1>Product Quantities</h1>
         <div class="table-container">
@@ -106,7 +115,7 @@ require "./adminNav.php"
         <div class="row">
           <div class="col"></div>
           <div class="col">
-            <form action="../admin/full_update_quantity.php" method="post">
+            <form action="../admin/fu" method="post">
               <button class="btn btn-primary">View full inventory</button>
             </form>
           </div>
@@ -281,7 +290,7 @@ require "./adminNav.php"
                 $order_status_id = $all_orders_data["order_status_id"];
             ?>
                 <tr>
-                  <td><?php echo $all_orders_data["id"]; ?></td>
+                  <td>#<?php echo $all_orders_data["id"]; ?></td>
                   <td><?php echo $all_orders_data["user_email"]; ?></td>
                   <td>
                     <?php

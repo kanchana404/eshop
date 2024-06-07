@@ -33,8 +33,8 @@
             Delevery Management
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Add province, District, city</a></li>
-            <li><a class="dropdown-item" href="#">Delete province, District, city</a></li>
+            <li><a class="dropdown-item" href="../admin/editpbc.php">Add province, District, city</a></li>
+            <li><a class="dropdown-item" href="../admin/deletepcb.php">Delete province, District, city</a></li>
           </ul>
         </div>
       </div>

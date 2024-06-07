@@ -413,12 +413,9 @@ function adminsignin() {
     var email = document.getElementById("email2");
     var password = document.getElementById("password2");
 
-
     var f = new FormData();
-    f.append("e", email2.value);
-    f.append("p", password2.value);
-
-
+    f.append("e", email.value);
+    f.append("p", password.value);
 
     var r = new XMLHttpRequest();
 
@@ -426,19 +423,35 @@ function adminsignin() {
         if (r.readyState == 4 && r.status == 200) {
             var t = r.responseText;
             if (t == "success") {
-                window.location = "adminhome.php";
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Signed in successfully"
+                });
 
+                setTimeout(function() {
+                    window.location = "adminhome.php";
+                }, 3000); // Redirect after 3 seconds to match the toast duration
             } else {
                 alert(t);
             }
-
         }
     }
 
     r.open("POST", " ./adminsigninprocess.php", true);
     r.send(f);
-
 }
+
 
 
 function updatebrand() {
@@ -669,48 +682,6 @@ function delcity() {
     r.send(f);
 }
 
-function addproduct() {
-    var pname = document.getElementById("title");
-    var price = document.getElementById("price");
-    var qty = document.getElementById("qty");
-    var description = document.getElementById("description");
-    var fee_c = document.getElementById("fee_c");
-    var fee_oc = document.getElementById("fee_oc");
-    var category = document.getElementById("productCategory");
-    var brand = document.getElementById("productBrand");
-    var color = document.getElementById("productColor");
-
-
-    var f = new FormData();
-    f.append("title", pname.value);
-    f.append("price", price.value);
-    f.append("qty", qty.value);
-    f.append("description", description.value);
-    f.append("fee_c", fee_c.value);
-    f.append("fee_oc", fee_oc.value);
-    f.append("category", category.value);
-    f.append("brand", brand.value);
-    f.append("color", color.value);
-
-    var r = new XMLHttpRequest();
-
-    r.onreadystatechange = function () {
-        if (r.readyState == 4 && r.status == 200) {
-            var t = r.responseText;
-            if (t == "success") {
-
-                location.reload();
-            } else {
-                alert(t);
-            }
-
-        }
-    }
-
-    r.open("POST", "updateproductprocess.php", true);
-    r.send(f);
-
-}
 
 function delbrand() {
     var delbrand = document.getElementById("del-brand-select");

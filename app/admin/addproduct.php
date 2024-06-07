@@ -277,6 +277,15 @@
       </div>
 
       <div class="row mt-4">
+        <div class="col-12">
+          <label for="imageUploader" class="form-label"><b>Product Image</b></label>
+        </div>
+        <div class="col-md-8 mx-auto">
+          <input type="file" class="form-control" id="imageUploader" />
+        </div>
+      </div>
+
+      <div class="row mt-4">
         <div class="col-8 mx-auto text-center">
           <button class="btn btn-success btn-custom" onclick="addproduct();"><b>+ Product</b></button>
         </div>
@@ -285,6 +294,52 @@
   </div>
 
   <script src="../../app/script.js"></script>
+  <script>
+    function addproduct() {
+      var pname = document.getElementById("title");
+      var price = document.getElementById("price");
+      var qty = document.getElementById("qty");
+      var description = document.getElementById("description");
+      var fee_c = document.getElementById("fee_c");
+      var fee_oc = document.getElementById("fee_oc");
+      var category = document.getElementById("productCategory");
+      var brand = document.getElementById("productBrand");
+      var color = document.getElementById("productColor");
+      var imageUploader = document.getElementById("imageUploader");
+
+      var f = new FormData();
+      f.append("title", pname.value);
+      f.append("price", price.value);
+      f.append("qty", qty.value);
+      f.append("description", description.value);
+      f.append("fee_c", fee_c.value);
+      f.append("fee_oc", fee_oc.value);
+      f.append("category", category.value);
+      f.append("brand", brand.value);
+      f.append("color", color.value);
+
+      if (imageUploader.files.length > 0) {
+        f.append("image", imageUploader.files[0]);
+      } else {
+        f.append("image", "https://via.placeholder.com/150"); // Placeholder image URL
+      }
+
+      var r = new XMLHttpRequest();
+      r.onreadystatechange = function () {
+        if (r.readyState == 4 && r.status == 200) {
+          var t = r.responseText;
+          if (t == "success") {
+            location.reload();
+          } else {
+            alert(t);
+          }
+        }
+      };
+
+      r.open("POST", "updateproductprocess.php", true);
+      r.send(f);
+    }
+  </script>
 </body>
 
 </html>

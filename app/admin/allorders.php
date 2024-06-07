@@ -109,7 +109,7 @@
             $order_status_id = $all_orders_data["order_status_id"];
         ?>
             <tr>
-              <td><?php echo $all_orders_data["id"]; ?></td>
+              <td>#<?php echo $all_orders_data["id"]; ?></td>
               <td><?php echo $all_orders_data["user_email"]; ?></td>
               <td>
                 <?php

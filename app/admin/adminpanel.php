@@ -87,6 +87,7 @@
     © 2023 AMELIYA || All Rights Reserved
   </div>
   <!-- End Example Code -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script src="../../app/script.js"></script>
 </body>
