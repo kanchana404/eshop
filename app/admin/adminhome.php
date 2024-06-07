@@ -63,6 +63,8 @@ require "./adminNav.php"
     }
     ?>
 
+    
+
 <section id="qty">
     <?php 
     $padnqty = Database::search("SELECT id, qty, title FROM product");
@@ -131,71 +133,7 @@ require "./adminNav.php"
     </div>
 </section>
 
-    <section>
-      <H1>My products</H1>
-      <div class="container mt-4">
-
-
-        <div class="table-container">
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Delivery Fee (Colombo)</th>
-                <th>Delivery Fee (Other)</th>
-                <th>Color ID</th>
-                <th>Category ID</th>
-                <th>Brand ID</th>
-                <th>Status ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-
-
-              $query = Database::search("SELECT * FROM product");
-              $query_num = $query->num_rows;
-
-              for ($x = 0; $x < 5; $x++) {
-                $query_data = $query->fetch_assoc();
-              ?>
-                <tr>
-                  <td><?php echo $query_data['id']; ?></td>
-                  <td><?php echo $query_data['title']; ?></td>
-                  <td><?php echo $query_data['discription']; ?></td>
-                  <td><?php echo $query_data['price']; ?></td>
-                  <td><?php echo $query_data['qty']; ?></td>
-                  <td><?php echo $query_data['del_fee_col']; ?></td>
-                  <td><?php echo $query_data['del_fee_other']; ?></td>
-                  <td><?php echo $query_data['color_clr_id']; ?></td>
-                  <td><?php echo $query_data['category_c_id']; ?></td>
-                  <td><?php echo $query_data['brand_b_id']; ?></td>
-                  <td><?php echo $query_data['status_s_id']; ?></td>
-                </tr>
-              <?php
-              }
-              ?>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-5"></div>
-        <div class="col-2">
-          <form action="../admin/myproduct.php">
-            <button type="submit" class="btn btn-primary">Show all products</button>
-          </form>
-
-        </div>
-        <div class="col-5"></div>
-      </div>
-    </section>
-
-    <section id="orders" class="container mt-4">
+<section id="orders" class="container mt-4">
   <style>
     #orders {
       background-color: #f8f9fa;
@@ -381,6 +319,70 @@ require "./adminNav.php"
     });
   </script>
 </section>
+    <section>
+      <H1>My products</H1>
+      <div class="container mt-4">
+
+
+        <div class="table-container">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Delivery Fee (Colombo)</th>
+                <th>Delivery Fee (Other)</th>
+                <th>Color ID</th>
+                <th>Category ID</th>
+                <th>Brand ID</th>
+                <th>Status ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+
+
+              $query = Database::search("SELECT * FROM product");
+              $query_num = $query->num_rows;
+
+              for ($x = 0; $x < 5; $x++) {
+                $query_data = $query->fetch_assoc();
+              ?>
+                <tr>
+                  <td><?php echo $query_data['id']; ?></td>
+                  <td><?php echo $query_data['title']; ?></td>
+                  <td><?php echo $query_data['discription']; ?></td>
+                  <td><?php echo $query_data['price']; ?></td>
+                  <td><?php echo $query_data['qty']; ?></td>
+                  <td><?php echo $query_data['del_fee_col']; ?></td>
+                  <td><?php echo $query_data['del_fee_other']; ?></td>
+                  <td><?php echo $query_data['color_clr_id']; ?></td>
+                  <td><?php echo $query_data['category_c_id']; ?></td>
+                  <td><?php echo $query_data['brand_b_id']; ?></td>
+                  <td><?php echo $query_data['status_s_id']; ?></td>
+                </tr>
+              <?php
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-5"></div>
+        <div class="col-2">
+          <form action="../admin/myproduct.php">
+            <button type="submit" class="btn btn-primary">Show all products</button>
+          </form>
+
+        </div>
+        <div class="col-5"></div>
+      </div>
+    </section>
+
 
 
 
