@@ -12,6 +12,22 @@ $amount = $_SESSION['amount'];
 $currency = $_SESSION['currency'];
 $delivery_fee = $_SESSION['delivery_fee'];
 $subtotal = $_SESSION['subtotal'];
+$user_email = 'kavithakgb2003@gmail.com'; // Assuming the email is stored in a session or retrieved from the database
+$unique_id = substr(uniqid('INV'), 0, 20); // Shorten the unique ID to fit the database column
+$date = date('Y-m-d H:i:s');
+
+// Insert data into cashondel_invoice_single_product table
+foreach ($orderDetails as $item) {
+    if (!isset($item['product_id'])) {
+        echo "Product ID is missing for one or more items.";
+        exit();
+    }
+    $product_id = $item['product_id'];
+    $price = $item['quantity'] * $item['price'];
+
+    $insert_query = "INSERT INTO cashondel_invoice_single_product (invoice_id, product_id, user_email, price, del_fee, date) VALUES ('$unique_id', '$product_id', '$user_email', '$price', '$delivery_fee', '$date')";
+    Database::iud($insert_query);
+}
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +104,7 @@ $subtotal = $_SESSION['subtotal'];
         <div class="header">
             <img src="../public/logo.png" alt="Company Logo">
             <h1>Thank you for your order!</h1>
-            <p>Invoice ID: <?php echo uniqid('INV'); ?></p>
+            <p>Invoice ID: <?php echo $unique_id; ?></p>
             <p>Paid by: Credit Card</p>
         </div>
         <div class="details">

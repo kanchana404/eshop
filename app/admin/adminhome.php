@@ -62,6 +62,66 @@ require "./adminNav.php"
       $user_data = $user_data->fetch_assoc();
     }
     ?>
+
+<section id="qty">
+    <?php 
+    $padnqty = Database::search("SELECT id, qty, title FROM product");
+    $padnqty_num = $padnqty->num_rows;
+    ?>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col">
+      <h1>Product Quantities</h1>
+        <div class="table-container">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Quantity</th>
+                        <th>Update Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    for ($i = 0; $i < 5; $i++) {
+                        $padnqty_data = $padnqty->fetch_assoc();
+                    ?>
+                    <tr>
+                        <td><?php echo $padnqty_data["title"]; ?></td>
+                        <td><?php echo $padnqty_data["qty"]; ?></td>
+                        <td>
+                            <form action="update_quantity.php" method="post">
+                                <input type="hidden" name="product_id" value="<?php echo $padnqty_data['id']; ?>">
+                                <input type="number" name="new_qty" value="<?php echo $padnqty_data['qty']; ?>" min="0">
+                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+          <div class="col"></div>
+          <div class="col">
+            <form action="../admin/full_update_quantity.php" method="post">
+              <button class="btn btn-primary">View full inventory</button>
+            </form>
+          </div>
+          <div class="col"></div>
+        </div>
+      </div>
+    </div>
+   
+</section>
+
+
+      </div>
+    </div>
+</section>
+
     <section>
       <H1>My products</H1>
       <div class="container mt-4">
@@ -259,7 +319,7 @@ require "./adminNav.php"
       <div class="row">
         <div class="col-5"></div>
         <div class="col-2">
-          <form action="../admin">
+          <form action="../admin/allorders.php">
             <button type="submit" class="btn btn-primary">Show all Orders</button>
           </form>
 

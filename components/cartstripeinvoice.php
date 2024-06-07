@@ -11,13 +11,33 @@ if (isset($_SESSION["u"])) {
         // Retrieve delivery fee from the session
         $delivery_fee = isset($_SESSION['delivery_fee']) ? $_SESSION['delivery_fee'] : 0;
         $unique_id = uniqid();
+
+        // Initialize the grand total
+        $grand_total = 0;
+
+        // Calculate the grand total
+        for ($x = 0; $x < $cart_num; $x++) {
+            $cart_data = $cart_rs->fetch_assoc();
+            $subtotal = $cart_data["price"] * $cart_data["cqty"];
+            $grand_total += $subtotal;
+        }
+
+        // Calculate grand total including delivery fee
+        $total_with_delivery = $grand_total + $delivery_fee;
+
+        // Insert data into cashondel_invoice_cart_product table
+        $date = date('Y-m-d H:i:s');
+        Database::iud("INSERT INTO cashondel_invoice_cart_product (invoice_id, user_email, price, del_fee, date) VALUES ('$unique_id', '$email', '$grand_total', '$delivery_fee', '$date')");
+
+        // Insert data into all_orders table using the same unique invoice ID
+        Database::iud("INSERT INTO all_orders (id, user_email, order_status_id) VALUES ('$unique_id', '$email', 1)");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" type="image/x-icon" href="../public/logo.png" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
     <style>
@@ -124,36 +144,22 @@ if (isset($_SESSION["u"])) {
                 </tr>
             </thead>
             <tbody>
-<?php
-        $grand_total = 0;
-        for ($x = 0; $x < $cart_num; $x++) {
-            $cart_data = $cart_rs->fetch_assoc();
-            $subtotal = $cart_data["price"] * $cart_data["cqty"];
-            $grand_total += $subtotal;
-
-            // Debugging: Check if product_id exists in the product table
-            $product_check_rs = Database::search("SELECT id FROM product WHERE id = '" . $cart_data["id"] . "'");
-            if ($product_check_rs->num_rows == 0) {
-                echo "Product ID " . $cart_data["id"] . " does not exist in the product table.";
-                continue; // Skip this product
-            }
-?>
+            <?php
+            // Re-fetch the cart data for displaying in the table
+            $cart_rs = Database::search("SELECT * FROM product INNER JOIN cart ON cart.product_id = product.id INNER JOIN user ON user.email = cart.user_email WHERE user_email = '" . $email . "'");
+            for ($x = 0; $x < $cart_num; $x++) {
+                $cart_data = $cart_rs->fetch_assoc();
+                $subtotal = $cart_data["price"] * $cart_data["cqty"];
+            ?>
                 <tr>
                     <td><?php echo $cart_data["title"]; ?></td>
                     <td><?php echo $cart_data["cqty"]; ?></td>
                     <td><?php echo number_format($cart_data["price"], 2); ?></td>
                     <td><?php echo number_format($subtotal, 2); ?></td>
                 </tr>
-<?php
-            // Insert each product into cashondel_invoice_single_product table
-            Database::iud("INSERT INTO cashondel_invoice_single_product (`invoice_id`, `product_id`, `user_email`, `price`, `del_fee`, `date`) VALUES ('" . $unique_id . "', '" . $cart_data["id"] . "', '" . $email . "', '" . $cart_data["price"] . "', '" . $delivery_fee . "', NOW())");
-        }
-        // Calculate grand total including delivery fee
-        $total_with_delivery = $grand_total + $delivery_fee;
-
-        // Insert into all_product table
-        Database::iud("INSERT INTO all_orders (`id`, `user_email`, `order_status_id`) VALUES ('" . $unique_id . "', '" . $email . "', '1')");
-?>
+            <?php
+            }
+            ?>
             </tbody>
             <tfoot>
                 <tr>
