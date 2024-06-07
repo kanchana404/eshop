@@ -174,9 +174,7 @@
    </div>
    <hr>
 
-   <?php 
-   require "../../footer.php";
-   ?>
+
     
     <script src="../../script.js"></script>
     <!-- End Example Code -->
