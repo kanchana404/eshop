@@ -142,7 +142,7 @@
                 <!-- Add additional details here if needed -->
               </div>
               <div class="col-md-4 text-end">
-                <a href="#" class="btn btn-secondary"><i class="bi bi-eye"></i> View Invoice</a>
+                <button class="btn btn-secondary" onclick="viewInvoice('<?php echo $invoicesingle_rs_data['invoice_id']; ?>', '<?php echo number_format($invoicesingle_rs_data['del_fee'], 2); ?>', '<?php echo number_format($invoicesingle_rs_data['price'], 2); ?>', '<?php echo date('d M Y', strtotime($invoicesingle_rs_data['date'])); ?>')"><i class="bi bi-eye"></i> View Invoice</button>
                 <button class="btn btn-danger" onclick="deleteSingleInvoice('<?php echo $invoicesingle_rs_data['invoice_id']; ?>')"><i class="bi bi-trash"></i> Delete</button>
               </div>
             </div>
@@ -177,7 +177,7 @@
                 <!-- Add additional details here if needed -->
               </div>
               <div class="col-md-4 text-end">
-                <a href="#" class="btn btn-secondary"><i class="bi bi-eye"></i> View Invoice</a>
+                <button class="btn btn-secondary" onclick="viewInvoice('<?php echo $invoicecart_rs_data['invoice_id']; ?>', '<?php echo number_format($invoicecart_rs_data['del_fee'], 2); ?>', '<?php echo number_format($invoicecart_rs_data['price'], 2); ?>', '<?php echo date('d M Y', strtotime($invoicecart_rs_data['date'])); ?>')"><i class="bi bi-eye"></i> View Invoice</button>
                 <button class="btn btn-danger" onclick="deleteCartInvoice('<?php echo $invoicecart_rs_data['invoice_id']; ?>')"><i class="bi bi-trash"></i> Delete</button>
               </div>
             </div>
@@ -187,7 +187,43 @@
     <?php } ?>
   </div>
 
+  <!-- Invoice Modal -->
+  <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="invoiceModalLabel">Invoice Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table invoice-table">
+            <tr>
+              <th>Invoice ID</th>
+              <td id="modal-invoice-id"></td>
+            </tr>
+            <tr>
+              <th>Delivery Fee</th>
+              <td id="modal-del-fee"></td>
+            </tr>
+            <tr>
+              <th>Total Price</th>
+              <td id="modal-total-price"></td>
+            </tr>
+            <tr>
+              <th>Purchase Date</th>
+              <td id="modal-date"></td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
@@ -247,6 +283,14 @@
           });
         }
       });
+    }
+
+    function viewInvoice(invoiceId, delFee, totalPrice, date) {
+      $('#modal-invoice-id').text(invoiceId);
+      $('#modal-del-fee').text('Rs ' + delFee + '.00');
+      $('#modal-total-price').text('Rs ' + totalPrice + '.00');
+      $('#modal-date').text(date);
+      $('#invoiceModal').modal('show');
     }
   </script>
 

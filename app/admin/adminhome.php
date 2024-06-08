@@ -1,395 +1,473 @@
+<?php
+session_start();
+require "../components/connection.php";
+?>
+
 <!doctype html>
 <html lang="en">
-
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="../public/logo.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../style.css">
-  <title>Admin</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <title>Ameliya</title>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <style>
     body {
-      background-color: #f8f9fa;
-    }
-
-    h1,
-    h2,
-    p {
-      font-family: 'Indie Flower', cursive;
-    }
-
-    .profile-container {
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-family: Arial, sans-serif;
       padding: 20px;
+    }
+
+    .form-row {
       margin-bottom: 20px;
     }
 
-    .btn-lg {
-      font-size: 1.25rem;
-      padding: 0.5rem 1rem;
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    #card-element {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+
+    #card-errors {
+      color: #fa755a;
+      margin-top: 12px;
+    }
+
+    button {
+      background-color: #6772e5;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #5469d4;
+    }
+
+    .StripeElement {
+      box-sizing: border-box;
+      height: 40px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background-color: white;
+      box-shadow: 0 1px 3px 0 #e6ebf1;
+      transition: box-shadow 150ms ease;
+    }
+
+    .StripeElement--focus {
+      box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    .StripeElement--invalid {
+      border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+      background-color: #fefde5 !important;
+    }
+
+    .payment-method {
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .payment-method:hover {
+      transform: scale(1.05);
+    }
+
+    .payment-section {
+      display: none;
+    }
+
+    .active {
+      display: block !important;
+    }
+
+    @media (max-width: 768px) {
+      .col-6 {
+        margin-bottom: 20px;
+      }
     }
   </style>
 </head>
 
-<?php
-require "./adminNav.php"
-?>
-<br>
-<br>
-
 <body class="p-3 m-0 border-0 bd-example m-0 border-0 bd-example-row bd-example-row-flex-cols">
 
-  <!-- Example Code -->
   <div class="container">
-    <div class="col-12">
-      <h1 class="text-center mb-4"><b>Admin Profile</b></h1>
-    </div>
-
-    <?php
-    session_start();
-    require "../../components/connection.php";
-
-    if (isset($_SESSION["u"])) {
-      $email = $_SESSION["u"]["email"];
-      $user_data = Database::search("SELECT * FROM admin WHERE `email` =  '" . $email . "';");
-      $user_data = $user_data->fetch_assoc();
-    }
-    ?>
-
-    
-
-<section id="qty">
-    <?php 
-    $padnqty = Database::search("SELECT id, qty, title FROM product");
-    $padnqty_num = $padnqty->num_rows;
-    ?>
-    <div class="row">
-      <div class="col text-center mt-5">
-        <div class="col mt-5">
-          <div class="co mt-5l">
-            <div class="col mt-5">
-            <h1 style="font-size:80px;">Admin Page</h1>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="col">
-      <h1>Product Quantities</h1>
-        <div class="table-container">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Quantity</th>
-                        <th>Update Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php 
-                    for ($i = 0; $i < 5; $i++) {
-                        $padnqty_data = $padnqty->fetch_assoc();
-                    ?>
-                    <tr>
-                        <td><?php echo $padnqty_data["title"]; ?></td>
-                        <td><?php echo $padnqty_data["qty"]; ?></td>
-                        <td>
-                            <form action="update_quantity.php" method="post">
-                                <input type="hidden" name="product_id" value="<?php echo $padnqty_data['id']; ?>">
-                                <input type="number" name="new_qty" value="<?php echo $padnqty_data['qty']; ?>" min="0">
-                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="row align-items-start">
+      <div class="col-md-8 text-center border-end">
+        <!-- User Details Section -->
+        <h1><b>User Details</b></h1>
+        <br>
+        <hr>
+        <br>
         <div class="row">
-          <div class="col"></div>
-          <div class="col">
-            <form action="../admin/full_update_quantity.php" method="post">
-              <button class="btn btn-primary">View full inventory</button>
-            </form>
-          </div>
-          <div class="col"></div>
-        </div>
-      </div>
-    </div>
-   
-</section>
-
-
-      </div>
-    </div>
-</section>
-
-<section id="orders" class="container mt-4">
-  <style>
-    #orders {
-      background-color: #f8f9fa;
-    }
-
-    #orders h1 {
-      color: #2761e7;
-      margin-bottom: 20px;
-    }
-
-    .table-container {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-
-    .table th,
-    .table td {
-      vertical-align: middle;
-    }
-
-    .table thead {
-      background-color: #2761e7;
-      color: white;
-    }
-
-    .table tbody tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    .btn-print {
-      background-color: #2761e7;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-bottom: 20px;
-      cursor: pointer;
-    }
-
-    .btn-print:hover {
-      background-color: #1a4fbb;
-    }
-
-    .status-select {
-      width: 100%;
-      padding: .375rem 1.75rem .375rem .75rem;
-      line-height: 1.5;
-      background-repeat: no-repeat;
-      background-position: right .75rem center;
-      background-size: 8px 10px;
-      border: 1px solid #ced4da;
-      border-radius: .25rem;
-    }
-
-    .bg-blue {
-      background-color: #0d6efd !important;
-    }
-
-    .bg-yellow {
-      background-color: #ffc107 !important;
-    }
-
-    .bg-green {
-      background-color: #198754 !important;
-    }
-  </style>
-
-  <div class="col-12 text-center">
-    <h1 class="mb-4"><b>Order List</b></h1>
-  </div>
-
-  <div class="table-container">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>User Email</th>
-          <th>Order Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $all_orders = Database::search("SELECT * FROM all_orders");
-        $all_orders_num = $all_orders->num_rows;
-
-        if ($all_orders_num > 0) {
-          for ($i = 0; $i < $all_orders_num; $i++) {
-            $all_orders_data = $all_orders->fetch_assoc();
-            $order_status_id = $all_orders_data["order_status_id"];
-        ?>
-            <tr>
-              <td>#<?php echo $all_orders_data["id"]; ?></td>
-              <td><?php echo $all_orders_data["user_email"]; ?></td>
-              <td>
-                <?php
-                $status_rs = Database::search("SELECT * FROM order_status");
-                $status_num = $status_rs->num_rows;
-                ?>
-                <select name="order_status" class="status-select" data-order-id="<?php echo $all_orders_data["id"]; ?>" data-order-status="<?php echo $order_status_id; ?>">
-                  <?php
-                  for ($j = 0; $j < $status_num; $j++) {
-                    $status_data = $status_rs->fetch_assoc();
-                    $selected = ($status_data["id"] == $order_status_id) ? "selected" : "";
-                  ?>
-                    <option value="<?php echo $status_data["id"]; ?>" <?php echo $selected; ?>>
-                      <?php echo $status_data["status"]; ?>
-                    </option>
-                  <?php
-                  }
-                  ?>
-                </select>
-              </td>
-            </tr>
           <?php
-          }
-        } else {
+          if (isset($_SESSION["u"])) {
+            $email = $_SESSION["u"]["email"];
+            $details_rs = Database::search("SELECT * FROM user INNER JOIN gender ON gender.id = user.gender_id WHERE `email` = '" . $email . "'; ");
+            $user_details_data = $details_rs->fetch_assoc();
+
+            $province_rs = Database::search("SELECT * FROM `province`");
+            $district_rs = Database::search("SELECT * FROM `district`");
+            $city_rs = Database::search("SELECT * FROM `city`");
+            $province_num = $province_rs->num_rows;
+            $district_num = $district_rs->num_rows;
+            $city_num = $city_rs->num_rows;
           ?>
-          <tr>
-            <td colspan="3" class="text-center">No Orders</td>
-          </tr>
-        <?php
-        }
-        ?>
-      </tbody>
-    </table>
-  </div>
-  <div class="row">
-    <div class="col-5"></div>
-    <div class="col-2">
-      <form action="../admin/allorders.php">
-        <button type="submit" class="btn btn-primary">Show all Orders</button>
-      </form>
-    </div>
-    <div class="col-5"></div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-      const selects = document.querySelectorAll('.status-select');
-
-      selects.forEach(select => {
-        setStatusColor(select);
-        select.addEventListener('change', function() {
-          setStatusColor(this);
-          updateOrderStatus(this);
-        });
-      });
-
-      function setStatusColor(select) {
-        select.classList.remove('bg-blue', 'bg-yellow', 'bg-green');
-        const statusId = select.value;
-
-        if (statusId == 1) {
-          select.classList.add('bg-blue'); // Order Placed
-        } else if (statusId == 2) {
-          select.classList.add('bg-yellow'); // Processing
-        } else if (statusId == 3) {
-          select.classList.add('bg-green'); // Delivered
-        }
-      }
-
-      function updateOrderStatus(select) {
-        const orderId = select.getAttribute('data-order-id');
-        const orderStatus = select.value;
-
-        fetch('update_order_status.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: `order_id=${orderId}&order_status=${orderStatus}`
-        })
-        .then(response => response.text())
-        .then(data => {
-          console.log('Update successful:', data);
-        })
-        .catch(error => {
-          console.error('Error updating order status:', error);
-        });
-      }
-    });
-  </script>
-</section>
-    <section>
-      <H1>My products</H1>
-      <div class="container mt-4">
-
-
-        <div class="table-container">
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Delivery Fee (Colombo)</th>
-                <th>Delivery Fee (Other)</th>
-                <th>Color ID</th>
-                <th>Category ID</th>
-                <th>Brand ID</th>
-                <th>Status ID</th>
-              </tr>
-            </thead>
-            <tbody>
+            <!-- Use Bootstrap grid classes for responsive layout -->
+            <div class="col-md-6">
+              <label class="form-label"><b>First Name</b></label>
+              <input class="form-control" type="text" id="fname" value="<?php echo $user_details_data["fname"]; ?>" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label"><b>Last Name</b></label>
+              <input class="form-control" type="text" id="lname" value="<?php echo $user_details_data["lname"]; ?>" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label"><b>Email</b></label>
+              <input class="form-control" type="text" id="email" value="<?php echo $user_details_data["email"]; ?>" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label"><b>Mobile</b></label>
+              <input class="form-control" type="text" id="mobile" value="<?php echo $user_details_data["mobile"]; ?>" />
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <!-- Delivery Details Section -->
+        <h1><b>Delivery Details</b></h1>
+        <br>
+        <hr>
+        <br>
+        <div class="row">
+          <!-- Address Line 1 -->
+          <div class="col-md-6">
+            <label class="form-label"><b>Address line 01</b></label>
+            <?php if (empty($address_data["line1"])) { ?>
+              <input type="text" id="line1" class="form-control" placeholder="Enter Address Line 01." />
+            <?php } else { ?>
+              <input type="text" id="line1" class="form-control" value="<?php echo $address_data["line1"]; ?>" />
+            <?php } ?>
+          </div>
+          <!-- Address Line 2 -->
+          <div class="col-md-6">
+            <label class="form-label"><b>Address line 02</b></label>
+            <?php if (empty($address_data["line2"])) { ?>
+              <input type="text" id="line2" class="form-control" placeholder="Enter your Address line 2." />
+            <?php } else { ?>
+              <input type="text" id="line2" class="form-control" value="<?php echo $address_data["line2"] ?>" />
+            <?php } ?>
+          </div>
+          <!-- Province Dropdown -->
+          <div class="col-md-6">
+            <label class="form-label">Province</label>
+            <select class="form-select" id="province">
+              <option value="0">Select Province</option>
               <?php
-
-
-              $query = Database::search("SELECT * FROM product");
-              $query_num = $query->num_rows;
-
-              for ($x = 0; $x < 5; $x++) {
-                $query_data = $query->fetch_assoc();
+              for ($x = 0; $x < $province_num; $x++) {
+                $province_data = $province_rs->fetch_assoc();
               ?>
-                <tr>
-                  <td><?php echo $query_data['id']; ?></td>
-                  <td><?php echo $query_data['title']; ?></td>
-                  <td><?php echo $query_data['discription']; ?></td>
-                  <td><?php echo $query_data['price']; ?></td>
-                  <td><?php echo $query_data['qty']; ?></td>
-                  <td><?php echo $query_data['del_fee_col']; ?></td>
-                  <td><?php echo $query_data['del_fee_other']; ?></td>
-                  <td><?php echo $query_data['color_clr_id']; ?></td>
-                  <td><?php echo $query_data['category_c_id']; ?></td>
-                  <td><?php echo $query_data['brand_b_id']; ?></td>
-                  <td><?php echo $query_data['status_s_id']; ?></td>
-                </tr>
+                <option value="<?php echo $province_data["id"]; ?>" <?php if (!empty($address_data["province_id"])) {
+                                                                      if ($province_data["id"] == $address_data["province_id"]) {
+                                                                      ?> selected <?php
+                                                                                  }
+                                                                                }
+                                                                                  ?>>
+                  <?php echo $province_data["province_name"]; ?>
+                </option>
               <?php
               }
               ?>
-            </tbody>
-          </table>
+            </select>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">District</label>
+            <select class="form-select" id="district">
+              <option value="0">Select District</option>
+              <?php
+              for ($x = 0; $x < $district_num; $x++) {
+                $district_data = $district_rs->fetch_assoc();
+              ?>
+                <option value="<?php echo $district_data["id"]; ?>" <?php if (!empty($address_data["district_id"])) {
+                                                                      if ($district_data["id"] == $address_data["district_id"]) {
+                                                                      ?>selected<?php
+                                                                              }
+                                                                            }
+                                                                              ?>><?php echo $district_data["district_name"] ?></option>
+              <?php
+              }
+              ?>
+            </select>
+          </div>
+
+          <div class="col-6">
+            <label class="form-label">City</label>
+            <select class="form-select" id="city">
+              <option value="0">Select City</option>
+              <?php
+              for ($x = 0; $x < $city_num; $x++) {
+                $city_data = $city_rs->fetch_assoc();
+              ?>
+                <option value="<?php echo $city_data["id"]; ?>" <?php if (!empty($address_data["city_id"])) {
+                                                                if ($city_data["id"] == $address_data["city_id"]) {
+                                                                ?>selected<?php
+                                                                        }
+                                                                      }
+                                                                          ?>><?php echo $city_data["city_name"] ?></option>
+              <?php
+              }
+              ?>
+            </select>
+          </div>
+          <!-- Postal Code -->
+          <div class="col-md-6">
+            <label class="form-label">Postal code</label>
+            <?php if (empty($address_data["postal_code"])) { ?>
+              <input type="text" id="postalcode" class="form-control" placeholder="Enter Postal Code" />
+            <?php } else { ?>
+              <input type="text" id="postalcode" class="form-control" value="<?php echo $address_data["postal_code"]; ?>" />
+            <?php } ?>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+          <!-- Update Delivery Address Button -->
+          <div class="col-12">
+            <button class="btn btn-success" onclick="updateaddress();">Update Delivery Address</button>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-5"></div>
-        <div class="col-2">
-          <form action="../admin/myproduct.php">
-            <button type="submit" class="btn btn-primary">Show all products</button>
-          </form>
 
+      <div class="col-md-4 text-center">
+        <!-- Sub Total Section -->
+        <h1><b>Sub total</b></h1>
+        <br>
+        <hr>
+        <?php
+        $pname = $_GET["pid"];
+        $email1 = $_SESSION["u"]["email"];
+        $pcart_rs = Database::search("SELECT * FROM product WHERE `title` = '" . $pname . "'");
+        $pcart_data = $pcart_rs->fetch_assoc();
+        $qty = $_GET["qty"];
+        $new_price = $pcart_data["price"] * $qty;
+        ?>
+        <h9><b><span id="title"><?php echo $pcart_data["title"] ?> </span>=</b> Rs. <span id="price"><?php echo $pcart_data["price"] ?></span>.00 X <span id="qqty"><?php echo $qty ?></span></h9>
+        <hr>
+        <br>
+        <br>
+        <hr>
+        <hr>
+        <div class="col-12 text-start">
+          <h2><b>Total :- Rs <span id="totalgana"><?php echo $new_price ?></span></b></h2>
+          <br>
+          <div class="col-12">
+            <h5 class="text-start"><b>Delivery Fee :-</b>
+              <span>Rs. <span id="delfee">
+                  <?php
+                  $email = $_SESSION["u"]["email"];
+                  $user_province_rs = Database::search("SELECT * FROM province INNER JOIN  district ON district.province_id = province.id INNER JOIN city ON city.district_id = district.id  INNER JOIN full_address ON full_address.city_id = city.id WHERE  `user_email` = '" . $email . "'");
+                  $user_province_num = $user_province_rs->num_rows;
+                  $user_province_data = $user_province_rs->fetch_assoc();
+                  $provine = $user_province_data["district_id"];
+                  if ($provine == "2") {
+                    echo " 500";
+                  } else {
+                    echo " 700";
+                  }
+                  ?>
+                </span>
+                .00
+              </span>
+            </h5>
+            <br>
+            <div class="col-12 text-center"></div>
+            <h5 class="text-start"><b>Sub Total :- Rs.<span id="sub_total">Select the province</span>.00 </b> </h5>
+            <br>
+            <br>
+            <br>
+            <!-- Payment Method Selection -->
+            <div class="row col-12 mb-4">
+              <h4><b>Select Payment Method</b></h4>
+              <select class="form-select" id="payment-method" onchange="showPaymentSection(this.value)">
+                <option value="" disabled>Select Payment Method</option>
+                <option value="cod-section" selected>Cash On Delivery</option>
+                <option value="online-section">Pay Online</option>
+              </select>
+            </div>
+
+            <!-- Cash On Delivery Section -->
+            <div id="cod-section" class="payment-section active">
+              <button class="col-12 btn btn-success mb-3" onclick="validateAddressAndProceed('buynow2');">Cash On Delivery</button>
+            </div>
+
+            <!-- Pay Online Section -->
+            <div id="online-section" class="payment-section">
+              <form action="singlecharge.php" method="post" id="payment-form">
+                <div class="form-row">
+                  <label for="card-element">
+                    Credit or Debit Card
+                  </label>
+                  <div id="card-element" class="StripeElement">
+                    <!-- A Stripe Element will be inserted here. -->
+                  </div>
+                  <!-- Used to display form errors. -->
+                  <div id="card-errors" role="alert"></div>
+                </div>
+                <button type="button" onclick="validateAddressAndProceed();">Submit Payment</button>
+                <input type="hidden" id="amount" name="amount">
+                <input type="hidden" id="currency" name="currency" value="lkr">
+                <input type="hidden" id="product_id" name="product_id" value="<?php echo $_GET['pid']; ?>">
+                <input type="hidden" id="product_name" name="product_name" value="<?php echo $pcart_data['title']; ?>">
+                <input type="hidden" id="quantity" name="quantity" value="<?php echo $_GET['qty']; ?>">
+                <input type="hidden" id="delivery_fee" name="delivery_fee" value="<?php echo $provine == '2' ? '500' : '700'; ?>">
+                <input type="hidden" id="subtotal" name="subtotal">
+              </form>
+            </div>
+          </div>
         </div>
-        <div class="col-5"></div>
       </div>
-    </section>
+    </div>
+  </div>
 
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    var stripe = Stripe('pk_test_51PFLEeRxsgvmazU6rEx19khsDbhWc8RKvlCMXHayfjFxNnpHt0B0yMdkz6HmAuCQfRUEyJBEmocUkanr0JrbZzoe00gC6PK57k');
+    var elements = stripe.elements();
+    var style = {
+      base: {
+        color: '#32325d',
+        lineHeight: '24px',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+      }
+    };
+    var card = elements.create('card', {
+      style: style
+    });
+    card.mount('#card-element');
+    card.addEventListener('change', function(event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      stripe.createToken(card).then(function(result) {
+        if (result.error) {
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+          stripeTokenHandler(result.token);
+        }
+      });
+    });
 
+    function stripeTokenHandler(token) {
+      var form = document.getElementById('payment-form');
+      var hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'stripeToken');
+      hiddenInput.setAttribute('value', token.id);
+      form.appendChild(hiddenInput);
+      form.submit();
+    }
 
+    function showPaymentSection(sectionId) {
+      document.querySelectorAll('.payment-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      if (sectionId) {
+        document.getElementById(sectionId).classList.add('active');
+      }
+    }
 
+    function validateAddressAndProceed(callback) {
+      const line1 = document.getElementById('line1').value.trim();
+      const line2 = document.getElementById('line2').value.trim();
+      const province = document.getElementById('province').value;
+      const district = document.getElementById('district').value;
+      const city = document.getElementById('city').value;
+      const postalcode = document.getElementById('postalcode').value.trim();
 
-    <script src="../../app/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+      if (line1 && line2 && province !== '0' && district !== '0' && city !== '0' && postalcode) {
+        if (callback === 'buynow2') {
+          buynow2();
+        } else {
+          document.getElementById('payment-form').submit();
+        }
+      } else {
+        alert('Please fill in all the delivery address fields before proceeding.');
+      }
+    }
+
+    var delfee = parseFloat(document.getElementById("delfee").innerText); // Parse as a number if necessary
+    var totalgana = parseFloat(document.getElementById("totalgana").innerText); // Parse as a number if necessary
+    var sub_total = document.getElementById("sub_total");
+
+    if (!isNaN(delfee) && !isNaN(totalgana)) {
+      var subtotal = delfee + totalgana;
+      sub_total.innerText = subtotal; // Update the sub_total element's text content
+      document.getElementById('amount').value = subtotal; // Set the amount for the payment form
+      document.getElementById('subtotal').value = subtotal; // Set the subtotal for the payment form
+    }
+    <?php
+    } else {
+      echo "alert('Please Login First');";
+    }
+    ?>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      showPaymentSection('cod-section');
+    });
+  </script>
+  <script src="script.js"></script>
+  <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 </body>
 
 </html>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $product_id = $_POST['product_id'];
+    $new_qty = $_POST['new_qty'];
+    
+    // Validate inputs
+    if (is_numeric($product_id) && is_numeric($new_qty) && $new_qty >= 0) {
+        // Update the database
+        Database::search("UPDATE product SET qty = $new_qty WHERE id = $product_id");
+    }
+    
+    // Redirect back to the previous page
+    header("Location: {$_SERVER['HTTP_REFERER']}");
+    exit();
+}
+?>
