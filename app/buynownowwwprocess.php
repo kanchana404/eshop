@@ -120,10 +120,15 @@ require "../components/connection.php";
           if (isset($_SESSION["u"])) {
             $email = $_SESSION["u"]["email"];
             $details_rs = Database::search("SELECT * FROM user INNER JOIN gender ON gender.id = user.gender_id WHERE `email` = '" . $email . "'; ");
-            $address_rs = Database::search("SELECT * FROM city INNER JOIN full_address ON full_address.city_id = city.id INNER JOIN district ON district.id = city.district_id INNER JOIN province
-              ON province.id = district.province_id WHERE `user_email` =  '" . $email . "';");
             $user_details_data = $details_rs->fetch_assoc();
-            $address_data = $address_rs->fetch_assoc();
+
+             $province_rs = Database::search("SELECT * FROM `province`");
+            $district_rs = Database::search("SELECT * FROM `district`");
+            $city_rs = Database::search("SELECT * FROM `city`");
+            $province_num = $province_rs->num_rows;
+            $district_num = $district_rs->num_rows;
+            $city_num = $city_rs->num_rows;
+            
           ?>
             <!-- Use Bootstrap grid classes for responsive layout -->
             <div class="col-md-6">
@@ -180,8 +185,11 @@ require "../components/connection.php";
                 $province_data = $province_rs->fetch_assoc();
               ?>
                 <option value="<?php echo $province_data["id"]; ?>" <?php if (!empty($address_data["province_id"])) {
-                                                                      if ($province_data["id"] == $address_data["province_id"]) { ?>selected <?php }
-                                                                                                                                          } ?>>
+                                                                      if ($province_data["id"] == $address_data["province_id"]) {
+                                                                      ?> selected <?php
+                                                                                  }
+                                                                                }
+                                                                                  ?>>
                   <?php echo $province_data["province_name"]; ?>
                 </option>
               <?php
@@ -189,8 +197,8 @@ require "../components/connection.php";
               ?>
             </select>
           </div>
-          <!-- District Dropdown -->
-          <div class="col-md-6">
+
+          <div class="col-6">
             <label class="form-label">District</label>
             <select class="form-select" id="district">
               <option value="0">Select District</option>
@@ -199,15 +207,18 @@ require "../components/connection.php";
                 $district_data = $district_rs->fetch_assoc();
               ?>
                 <option value="<?php echo $district_data["id"]; ?>" <?php if (!empty($address_data["district_id"])) {
-                                                                      if ($district_data["id"] == $address_data["district_id"]) { ?>selected<?php }
-                                                                                                                                        } ?>><?php echo $district_data["district_name"] ?></option>
+                                                                      if ($district_data["id"] == $address_data["district_id"]) {
+                                                                      ?>selected<?php
+                                                                              }
+                                                                            }
+                                                                              ?>><?php echo $district_data["district_name"] ?></option>
               <?php
               }
               ?>
             </select>
           </div>
-          <!-- City Dropdown -->
-          <div class="col-md-6">
+
+          <div class="col-6">
             <label class="form-label">City</label>
             <select class="form-select" id="city">
               <option value="0">Select City</option>
@@ -216,8 +227,11 @@ require "../components/connection.php";
                 $city_data = $city_rs->fetch_assoc();
               ?>
                 <option value="<?php echo $city_data["id"]; ?>" <?php if (!empty($address_data["city_id"])) {
-                                                                  if ($city_data["id"] == $address_data["city_id"]) { ?>selected<?php }
-                                                                                                                            } ?>><?php echo $city_data["city_name"] ?></option>
+                                                                if ($city_data["id"] == $address_data["city_id"]) {
+                                                                ?>selected<?php
+                                                                        }
+                                                                      }
+                                                                          ?>><?php echo $city_data["city_name"] ?></option>
               <?php
               }
               ?>

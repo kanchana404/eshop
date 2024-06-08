@@ -197,75 +197,109 @@ function forgotPassword() {
         if (result.isConfirmed) {
             var email = result.value;
 
-            // Step 2: Send the verification code to the user's email
-            sendVerificationCode(email).then(() => {
-                // Step 3: Ask for the verification code
-                Swal.fire({
-                    title: 'Enter the verification code',
-                    input: 'text',
-                    inputLabel: 'We have sent a verification code to your email',
-                    inputPlaceholder: 'Enter the verification code',
-                    showCancelButton: true,
-                    confirmButtonText: 'Verify'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var verificationCode = result.value;
+            // Step 1: Validate the email address
+            validateEmail(email).then((isValid) => {
+                if (isValid) {
+                    // Step 2: Send the verification code to the user's email
+                    sendVerificationCode(email).then(() => {
+                        // Step 3: Ask for the verification code
+                        Swal.fire({
+                            title: 'Enter the verification code',
+                            input: 'text',
+                            inputLabel: 'We have sent a verification code to your email',
+                            inputPlaceholder: 'Enter the verification code',
+                            showCancelButton: true,
+                            confirmButtonText: 'Verify'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var verificationCode = result.value;
 
-                        // Step 4: Verify the code
-                        verifyCode(email, verificationCode).then((isValid) => {
-                            if (isValid) {
-                                // Step 5: Ask for the new password
-                                Swal.fire({
-                                    title: 'Enter new password',
-                                    html: `<input type="password" id="newPassword" class="swal2-input" placeholder="New password">
-                                           <input type="password" id="confirmPassword" class="swal2-input" placeholder="Confirm new password">`,
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Reset Password',
-                                    preConfirm: () => {
-                                        const newPassword = document.getElementById('newPassword').value;
-                                        const confirmPassword = document.getElementById('confirmPassword').value;
+                                // Step 4: Verify the code
+                                verifyCode(email, verificationCode).then((isValid) => {
+                                    if (isValid) {
+                                        // Step 5: Ask for the new password
+                                        Swal.fire({
+                                            title: 'Enter new password',
+                                            html: `<input type="password" id="newPassword" class="swal2-input" placeholder="New password">
+                                                   <input type="password" id="confirmPassword" class="swal2-input" placeholder="Confirm new password">`,
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Reset Password',
+                                            preConfirm: () => {
+                                                const newPassword = document.getElementById('newPassword').value;
+                                                const confirmPassword = document.getElementById('confirmPassword').value;
 
-                                        if (newPassword !== confirmPassword) {
-                                            Swal.showValidationMessage('Passwords do not match');
-                                        } else {
-                                            return newPassword;
-                                        }
-                                    }
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        var newPassword = result.value;
-                                        // Step 6: Reset the password
-                                        resetPassword(email, newPassword).then((response) => {
-                                            if (response === "success") {
-                                                Swal.fire(
-                                                    'Success!',
-                                                    'Your password has been reset successfully.',
-                                                    'success'
-                                                );
-                                            } else {
-                                                Swal.fire(
-                                                    'Error!',
-                                                    response,
-                                                    'error'
-                                                );
+                                                if (newPassword !== confirmPassword) {
+                                                    Swal.showValidationMessage('Passwords do not match');
+                                                } else {
+                                                    return newPassword;
+                                                }
+                                            }
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                var newPassword = result.value;
+                                                // Step 6: Reset the password
+                                                resetPassword(email, newPassword).then((response) => {
+                                                    if (response === "success") {
+                                                        console.log('Password reset successful');
+                                                        Swal.fire(
+                                                            'Success!',
+                                                            'Your password has been reset successfully.',
+                                                            'success'
+                                                        );
+                                                    } else {
+                                                        Swal.fire(
+                                                            'Error!',
+                                                            response,
+                                                            'error'
+                                                        );
+                                                    }
+                                                });
                                             }
                                         });
+                                    } else {
+                                        Swal.fire(
+                                            'Error!',
+                                            'Invalid verification code.',
+                                            'error'
+                                        );
                                     }
                                 });
-                            } else {
-                                Swal.fire(
-                                    'Error!',
-                                    'Invalid verification code.',
-                                    'error'
-                                );
                             }
                         });
-                    }
-                });
+                    });
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        'Invalid email address.',
+                        'error'
+                    );
+                }
             });
         }
     });
 }
+
+function validateEmail(email) {
+    return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+        var url = `https://api.email-validator.net/api/verify?EmailAddress=${email}&APIKey=ev-089cc60029d74b491ec1dcbee9824bdc`;
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log("Email validation response:", xhr.responseText); // Debugging line
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    resolve(response.status === 200);
+                } else {
+                    resolve(false);
+                }
+            }
+        };
+        xhr.open("GET", url, true);
+        xhr.send();
+    });
+}
+
 
 function sendVerificationCode(email) {
     return new Promise((resolve, reject) => {
@@ -274,8 +308,13 @@ function sendVerificationCode(email) {
 
         var r = new XMLHttpRequest();
         r.onreadystatechange = function () {
-            if (r.readyState == 4 && r.status == 200) {
-                resolve();
+            if (r.readyState == 4) {
+                console.log("Send verification code response:", r.responseText); // Debugging line
+                if (r.status == 200) {
+                    resolve();
+                } else {
+                    reject(r.responseText);
+                }
             }
         }
         r.open("POST", "../app/send-verification-code.php", true);
@@ -316,7 +355,6 @@ function resetPassword(email, newPassword) {
         r.send(f);
     });
 }
-
 
 
 function showPassword3() {
